@@ -1,0 +1,19 @@
+.starrr, .starrr2 {
+  display: inline-block;
+ }
+ 
+.starrr i, .starrr2 i, .starrr a, .starrr2 a, .score i {
+   	font-size: 16px;
+	padding: 0 1px;
+    cursor: pointer;
+    color: #FFD119 !important;
+    text-decoration: none !important;
+}
+#star_input, #star2_input {
+	border: none;
+    color: #696969;
+}
+
+/* #star_avg i {
+	font-size: 30px;
+} */

@@ -1,0 +1,66 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+*{
+	font-family: 'Nanum Gothic';
+}
+a{
+	color:#111111;
+	text-decoration: none;
+}
+a:hover{
+	color:#bbbbbb;
+	text-decoration: none;
+	cursor:pointer;
+}
+.nav{
+	background-color:skyblue;
+}
+/* 전체 영역을 통들어서 지정*/
+.navbar-expand-lg{
+	background-color:skyblue;
+	border-color:#000000;
+}
+.navbar-expand-lg .navbar-brand{
+	color:skyblue;
+}
+.navbar-expand-lg .navbar-brand:hover,
+.navbar-expand-lg .navbar-brand:focus{ /*제목포커스*/
+	border-color:#000000;
+	color:blue;
+}
+.navbar-expand-lg .navbar-nav > .active >a,
+.navbar-expand-lg .navbar-nav > .active >a:hover,
+.navbar-expand-lg .navbar-nav > .active >a:focus{
+	color:skyblue;
+	background-color :white;
+}
+
+.navbar-expand-lg .navbar-nav > li >a:hover,
+.navbar-expand-lg .navbar-nav > li >a:focus{
+	color:white;
+	background-color :skyblue;
+}
+
+.navbar-expand-lg .navbar-nav > .open >a,
+.navbar-expand-lg .navbar-nav > .open >a:hover,
+.navbar-expand-lg .navbar-nav > .open >a:focus{
+	color:red;
+	background-color :red;
+	text-decoration: none;
+}
+
+.navbar-expand-lg .navbar-nav > li > a{
+	color:#256468;
+}
+
+@media (max-width: 767px)
+{
+	/*해상도가 작을 때 드랍다운 아이템에 마우스를 올렷을떄*/
+
+	.navbar-expand-lg .navbar-nav .open .dropdown-menu > li > a {
+		color:#ffffff;
+	}
+	.navbar-expand-lg .navbar-nav .open .dropdown-menu > li > a:hover,
+	.navbar-expand-lg .navbar-nav .open .dropdown-menu > li > a:focus{
+		color:#bbbbbb;
+	}
+}

@@ -1,0 +1,57 @@
+@CHARSET "UTF-8";
+
+
+.header_mobile {
+	display:none !important;
+}
+
+@media (min-width: 520px){
+	body{margin-top: 20vh}
+}@media (max-width: 900px) {
+  body{margin-top: 6vh}
+}
+@media (min-width: 1300px){
+  
+  }@media (max-width: 1300px){
+  	.header_mobile{
+  		display:block !important;
+  	}
+  	
+  	.header_pc{
+  	display:none !important;}
+  }
+  
+  
+  
+/* 수정 */
+.store_detail p {
+	display:inline-block;
+	margin: 0 10px;
+	vertical-align: center;
+	font-size: 15.5px;
+    color: #555;
+    font-weight: 400;
+}
+
+.rotation {
+    transform: scaleX(-1);   
+}
+
+.store_detail {
+	padding-left: 0;
+}
+
+.store_detail li:first-child{
+	margin: 0 20px;
+}
+
+.store_detail li {
+	margin: 20px;
+}
+
+ion-icon{
+	font-size: 20px;
+    color: #999;
+    vertical-align: center;
+}
+  
