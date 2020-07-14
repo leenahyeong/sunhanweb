@@ -37,9 +37,9 @@ public class androidReviewDelServlet extends HttpServlet {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 
@@ -50,16 +50,16 @@ public class androidReviewDelServlet extends HttpServlet {
 			int review_no = Integer.parseInt(request.getParameter("review_no"));
 			int check = Integer.parseInt(request.getParameter("check"));
 
-			// ¾Æµ¿ÀÌ »èÁ¦¿äÃ»ÇßÀ»¶§´Â ´ä±Û´Ş¸° »çÀå¸®ºäµµ »èÁ¦
+			// ì•„ë™ì´ ì‚­ì œìš”ì²­í–ˆì„ë•ŒëŠ” ë‹µê¸€ë‹¬ë¦° ì‚¬ì¥ë¦¬ë·°ë„ ì‚­ì œ
 			if (check == 0) {
 				sql.append("DELETE review.* FROM review").append(" LEFT OUTER JOIN review as re")
 						.append(" ON review.review_group = re.review_group").append(" WHERE review.review_group = ?");
 
 				pstmt = conn.prepareStatement(sql.toString());
-				pstmt.setInt(1, review_no); // ¾Æµ¿ÀÌ »èÁ¦½Ã¿¡´Â ±× ¸®ºäÀÇ ±×·ì¹øÈ£¸¦ ³Ö¾îÁà¾ßµÊ, ÀÌ¸§¸¸ review_no
+				pstmt.setInt(1, review_no); // ì•„ë™ì´ ì‚­ì œì‹œì—ëŠ” ê·¸ ë¦¬ë·°ì˜ ê·¸ë£¹ë²ˆí˜¸ë¥¼ ë„£ì–´ì¤˜ì•¼ë¨, ì´ë¦„ë§Œ review_no
 			}
 
-			// »çÀåÀÌ »èÁ¦¿äÃ»
+			// ì‚¬ì¥ì´ ì‚­ì œìš”ì²­
 			else if (check == 1) {
 				sql.append("DELETE FROM review").append(" WHERE review_no = ?");
 
