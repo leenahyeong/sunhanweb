@@ -46,7 +46,8 @@
 ### 1. 게시판 
 
 - 썸머노트 에디터 사용 (AJAX로 이미지 업로드)
-<br>- 댓글(CRUD) AJAX로 구현
+
+- 댓글(CRUD) AJAX로 구현
 
   #### 1.1 공지사항
 
@@ -57,15 +58,17 @@
   #### 1.2 갤러리
 
   - 이미지를 리사이징하여 썸네일 이미지 크기를 줄여서 저장
-
-  >![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
+  <br>
+  
+    >![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
   <br>
 
   #### 1.3 자유게시판
 
   - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
-
+  <br>
+  
   >![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
 
 <br>
@@ -99,7 +102,8 @@
   #### 3.1 아동이 리뷰 작성 시
 
   - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
-   
+  <br>
+  
   >![review_child](https://user-images.githubusercontent.com/68145824/87397909-0bdbd280-c5f0-11ea-8026-7c77d90a84c7.gif)
 
   <br>
