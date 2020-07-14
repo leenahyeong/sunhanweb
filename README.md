@@ -65,8 +65,9 @@
 ![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
 <br>
-  #### 1.3 자유게시판
 
+  #### 1.3 자유게시판
+ <br>
     - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
 
 ![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
