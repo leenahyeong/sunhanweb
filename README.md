@@ -43,7 +43,7 @@
 
 ## 시현(본인이 구현한 기능)
 ### 1. 게시판 
-<br>
+
 - 썸머노트 에디터 사용 (AJAX로 이미지 업로드)
 <br>
 - 댓글(CRUD) AJAX로 구현
@@ -53,13 +53,15 @@
 
   >![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif)
 
-
+  <br>
+  
   #### 1.2 갤러리
 
    - 이미지를 리사이징하여 썸네일 이미지 크기를 줄여서 저장
 
   >![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
+  <br>
 
   #### 1.3 자유게시판
 
