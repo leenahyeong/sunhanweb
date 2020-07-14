@@ -8,7 +8,7 @@
 프로젝트 인원
 2명
 
-프론트엔드(HTML, CSS, JQUERY) / 백엔드(DB, JAVA, JSP, JS) 
+프론트엔드(HTML, CSS, JQUERY, BOOTSTRAP) / 백엔드(DB, JAVA, JSP, JS) 
 
 
 ----------------------------------------------
