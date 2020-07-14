@@ -69,26 +69,10 @@ public class androidStoreSearchServlet extends HttpServlet {
 
 		try {
 
-			// 1. JDBC �뱶�씪�씠踰� �꽕移�
-
-			// mysql-connector-java-8.0.11.jar �뙆�씪�쓣 web-inf >> lib �뤃�뜑�뿉 異붽�
-
-			// 2. �꽕移섎릺�뼱�엳�뒗 �뱶�씪�씠踰꾨�� 濡쒕뱶
-
 			Class.forName("com.mysql.jdbc.Driver");
-
-			// 3. �뱶�씪�씠踰꾨�� �궗�슜�빐�꽌 �뵒鍮� �뿰寃� �븘�씠�뵒/鍮꾨�踰덊샇/�뵒鍮� 二쇱냼
-
-			// mysql-connector-java 6.XX �씠�긽 �궗�슜�떆 �뵒鍮� �젒洹� 二쇱냼(�꽌踰꾩떆媛� �씤�떇
-			// �삤瑜�)
-
-			// String dbURL = "jdbc:mysql://localhost:3306/itwill";
-
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-
-			String dbID = "mysqluser";
-
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			Connection conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 
