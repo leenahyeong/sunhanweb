@@ -52,7 +52,7 @@
 
 <br>
 
-![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif = 400X400)
+![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif){ width=70%, height=70% }
 
 <br>
 
