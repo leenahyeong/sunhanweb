@@ -37,9 +37,9 @@ public class androidReviewAddServlet extends HttpServlet {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 
@@ -49,7 +49,7 @@ public class androidReviewAddServlet extends HttpServlet {
 
 			int admin = Integer.parseInt(request.getParameter("admin"));
 
-			// ¾Æµ¿ÀÌ ¸®ºä ´Ş¾ÒÀ»¶§
+			// ì•„ë™ì´ ë¦¬ë·° ë‹¬ì•˜ì„ë•Œ
 			if (admin == 0) {
 				sql.append("SELECT max(review_group) FROM review");
 
@@ -64,9 +64,9 @@ public class androidReviewAddServlet extends HttpServlet {
 				} else {
 					maxvalue = 1;
 				}
-				System.out.println(maxvalue + "¿¨?");
+				System.out.println(maxvalue + "ì—¥?");
 				out.print(maxvalue);
-				// ÃÊ±âÈ­
+				// ì´ˆê¸°í™”
 				pstmt.clearParameters();
 				sql.delete(0, sql.toString().length());
 
@@ -90,7 +90,7 @@ public class androidReviewAddServlet extends HttpServlet {
 				sql.delete(0, sql.toString().length());
 			}
 
-			// »çÀåÀÌ ¸®ºä¿¡ ´ëÇÑ ´ä±Û ´Ş¾ÒÀ»¶§
+			// ì‚¬ì¥ì´ ë¦¬ë·°ì— ëŒ€í•œ ë‹µê¸€ ë‹¬ì•˜ì„ë•Œ
 			else if (admin == 1) {
 				sql.append(
 						"INSERT INTO review(review_group, review_depth, review_rno, review_userid, review_storeid, review_content)")
