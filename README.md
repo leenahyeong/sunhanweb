@@ -51,24 +51,19 @@
 
   #### 1.1 공지사항
 
-<br>
-
 ![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif)
 
-<br>
 
   #### 1.2 갤러리
 
-<br>
    - 이미지를 리사이징하여 썸네일 이미지 크기를 줄여서 저장
 
 ![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
-<br>
 
-  #### 1.3 자유게시판
- <br>
-    - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
+ #### 1.3 자유게시판
+
+  - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
 
 ![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
 
@@ -89,6 +84,7 @@
 ![reserve_refuse](https://user-images.githubusercontent.com/68145824/87397895-067e8800-c5f0-11ea-9381-8113fabb9eaa.gif)
 
 <br>
+
   #### 2.3 후원자(예약승인, 방문완료)
 
 ![reserve_success](https://user-images.githubusercontent.com/68145824/87397901-08e0e200-c5f0-11ea-823d-38072f7eb139.gif)
@@ -99,11 +95,13 @@
  - 방문완료한 아동만 작성 가능, 별점 라이브러리(starrr) 사용
 
 <br>
+
 #### 3.1 아동이 리뷰 작성 시
 
 ![review_child](https://user-images.githubusercontent.com/68145824/87397909-0bdbd280-c5f0-11ea-8026-7c77d90a84c7.gif)
 
 <br>
+
 #### 3.2 후원자가 리뷰 작성 시
 
 ![review_store](https://user-images.githubusercontent.com/68145824/87397912-0d0cff80-c5f0-11ea-8543-d1b999b7ed5a.gif)
