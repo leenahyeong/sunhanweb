@@ -18,7 +18,6 @@
 
 ## 사용 기술
 
-<br>
 디자인
 <br>
 - HTML, CSS, JS 프레임워크인 Bootstrap 사용
@@ -38,8 +37,7 @@
 
 
 ## 시현(본인이 구현한 기능)
-#### 1. 게시판 
-
+### 1. 게시판 
 <br>
 - 썸머노트 에디터 사용 (AJAX로 이미지 업로드)
 <br>
@@ -69,7 +67,7 @@
 ![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
 
 <br>
-#### 2. 예약
+### 2. 예약
 
 - 후원아동만 예약 가능하며, 방문예정시간 1시간 전이나 후원자가 이미 예약처리(예약승인, 거절)를 했을 경우 수정 불가
 
@@ -89,7 +87,7 @@
 ![reserve_success](https://user-images.githubusercontent.com/68145824/87397901-08e0e200-c5f0-11ea-823d-38072f7eb139.gif)
 
 <br>
-#### 3. 리뷰
+### 3. 리뷰
  - 방문완료한 아동만 작성 가능, 별점 라이브러리(starrr) 사용
 
 <br>
