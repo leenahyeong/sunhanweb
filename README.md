@@ -1,7 +1,6 @@
 # 선한영향력(Good Influence)
 <br>
 
-## 프로젝트 소개
 ![main](https://user-images.githubusercontent.com/68145824/87403307-ab509380-c5f7-11ea-8273-336234ba696f.png)
 '선한영향력'은 결식아동과 결식아동들을 후원하고자 하는 매장들을 연결해주고자 하여 만든 웹 어플리케이션입니다.
 아동들은 후원 매장에 대한 정보를 얻을 수 있으며, 방문 전 예약을 하여 손쉽게 방문할 수 있습니다. 
@@ -19,18 +18,25 @@
 ## 사용 기술
 
 디자인
+
 <br>
 - HTML, CSS, JS 프레임워크인 Bootstrap 사용
 <br>
+
 언어
+
 <br>
  - JAVA (JSP+SERVLET)
 <br>
+
 데이터베이스
+
 <br>
  - MYSQL
 <br>
+
 서버
+
 <br>
  - AWS
 <br>
