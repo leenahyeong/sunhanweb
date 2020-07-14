@@ -17,7 +17,6 @@
 ## 사용 기술
 
 <br>
-<br>
 디자인
 <br>
 - HTML, CSS, JS 프레임워크인 Bootstrap 사용
@@ -41,7 +40,6 @@
 
 <br>
 
-
 게시판 
 <br>
 - 썸머노트 에디터 사용 (AJAX로 이미지 업로드)
@@ -50,13 +48,14 @@
 
 공지사항
 <br>
+
 ![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif)
 
 <br>
 갤러리
 <br>
 - 이미지를 리사이징하여 썸네일 이미지 크기를 줄여서 저장
-<br>
+
 ![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
 <br>
