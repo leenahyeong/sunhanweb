@@ -16,15 +16,21 @@
 ## 사용 기술
 <br>
 디자인
-HTML, CSS, JS 프레임워크인 Bootstrap
+<br>
+- HTML, CSS, JS 프레임워크인 Bootstrap 사용
+<br>
 언어
+<br>
  - JAVA (JSP+SERVLET)
- 
+<br>
 데이터베이스
+<br>
  - MYSQL
- 
+<br>
 서버
+<br>
  - AWS
+<br>
 
 <br>
 ## 본인이 구현한 기능 시현
