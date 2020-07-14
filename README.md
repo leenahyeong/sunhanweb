@@ -51,21 +51,21 @@
 
   #### 1.1 공지사항
 
-![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif)
+  ![notice](https://user-images.githubusercontent.com/68145824/87397214-f31eed00-c5ee-11ea-867b-1ea3b3ac0db5.gif)
 
 
   #### 1.2 갤러리
 
    - 이미지를 리사이징하여 썸네일 이미지 크기를 줄여서 저장
 
-![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
+  ![photo](https://user-images.githubusercontent.com/68145824/87397232-fc0fbe80-c5ee-11ea-8fb5-dc6f986fd4e5.gif)
 
 
  #### 1.3 자유게시판
 
   - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
 
-![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
+  ![freeboard](https://user-images.githubusercontent.com/68145824/87397363-32e5d480-c5ef-11ea-972c-43ad3e2ca86b.gif)
 
 <br>
 
@@ -75,19 +75,19 @@
 
   #### 2.1 아동(예약, 예약수정, 예약취소)
 
-![reserve_child](https://user-images.githubusercontent.com/68145824/87397823-e8188c80-c5ef-11ea-80a0-fb018fd2aa8a.gif)
+  ![reserve_child](https://user-images.githubusercontent.com/68145824/87397823-e8188c80-c5ef-11ea-80a0-fb018fd2aa8a.gif)
 
 <br>
 
   #### 2.2 후원자(예약거절)
 
-![reserve_refuse](https://user-images.githubusercontent.com/68145824/87397895-067e8800-c5f0-11ea-9381-8113fabb9eaa.gif)
+  ![reserve_refuse](https://user-images.githubusercontent.com/68145824/87397895-067e8800-c5f0-11ea-9381-8113fabb9eaa.gif)
 
 <br>
 
   #### 2.3 후원자(예약승인, 방문완료)
 
-![reserve_success](https://user-images.githubusercontent.com/68145824/87397901-08e0e200-c5f0-11ea-823d-38072f7eb139.gif)
+  ![reserve_success](https://user-images.githubusercontent.com/68145824/87397901-08e0e200-c5f0-11ea-823d-38072f7eb139.gif)
 
 <br>
 
@@ -96,13 +96,13 @@
 
 <br>
 
-#### 3.1 아동이 리뷰 작성 시
+  #### 3.1 아동이 리뷰 작성 시
 
-![review_child](https://user-images.githubusercontent.com/68145824/87397909-0bdbd280-c5f0-11ea-8026-7c77d90a84c7.gif)
+  ![review_child](https://user-images.githubusercontent.com/68145824/87397909-0bdbd280-c5f0-11ea-8026-7c77d90a84c7.gif)
 
 <br>
 
-#### 3.2 후원자가 리뷰 작성 시
+  #### 3.2 후원자가 리뷰 작성 시
 
-![review_store](https://user-images.githubusercontent.com/68145824/87397912-0d0cff80-c5f0-11ea-8543-d1b999b7ed5a.gif)
+  ![review_store](https://user-images.githubusercontent.com/68145824/87397912-0d0cff80-c5f0-11ea-8543-d1b999b7ed5a.gif)
 
