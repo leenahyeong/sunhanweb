@@ -38,9 +38,9 @@ public class androidReserveAddServlet extends HttpServlet {
 			
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 
@@ -48,8 +48,8 @@ public class androidReserveAddServlet extends HttpServlet {
 								
 			StringBuffer sql = new StringBuffer();
 			
-			String rv_userid = request.getParameter("id"); // ÇöÀç ·Î±×ÀÎ ÁßÀÎ À¯Àú ¾ÆÀÌµğ
-			String rv_storeid = request.getParameter("storeid"); // °¡°Ô¾ÆÀÌµğ
+			String rv_userid = request.getParameter("id"); // í˜„ì¬ ë¡œê·¸ì¸ ì¤‘ì¸ ìœ ì € ì•„ì´ë””
+			String rv_storeid = request.getParameter("storeid"); // ê°€ê²Œì•„ì´ë””
 			int rv_personnel = Integer.parseInt(request.getParameter("personnel"));
 			SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
 			String now = request.getParameter("now");
@@ -65,11 +65,11 @@ public class androidReserveAddServlet extends HttpServlet {
 			
 			String rv_time = now.replace("-", "").trim()+option+minute;
 			
-			String rs_userid = request.getParameter("id"); // ÇöÀç ·Î±×ÀÎ ÁßÀÎ À¯Àú ¾ÆÀÌµğ
-			String rs_storeid = request.getParameter("storeid"); // °¡°Ô¾ÆÀÌµğ
+			String rs_userid = request.getParameter("id"); // í˜„ì¬ ë¡œê·¸ì¸ ì¤‘ì¸ ìœ ì € ì•„ì´ë””
+			String rs_storeid = request.getParameter("storeid"); // ê°€ê²Œì•„ì´ë””
 				
 			if(result == 0) {
-				// ÇÑ¹øµµ ¿¹¾àÇÑ Àû ¾ø´Â ½Å±Ô
+				// í•œë²ˆë„ ì˜ˆì•½í•œ ì  ì—†ëŠ” ì‹ ê·œ
 					
 				sql.append("INSERT INTO reserve(rv_sno, rv_time, rv_userid, rv_personnel, rv_status) VALUES(?,?,?,?,?)");
 				
@@ -81,11 +81,11 @@ public class androidReserveAddServlet extends HttpServlet {
 				pstmt.setInt(5, 1);
 					
 				c = pstmt.executeUpdate();
-				// ÃÊ±âÈ­
+				// ì´ˆê¸°í™”
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 					
-				// ½Å±Ô¾Æµ¿Àº status Å×ÀÌºí¿¡µµ µ¥ÀÌÅÍ°¡ ¾øÀ¸´Ï±î insert
+				// ì‹ ê·œì•„ë™ì€ status í…Œì´ë¸”ì—ë„ ë°ì´í„°ê°€ ì—†ìœ¼ë‹ˆê¹Œ insert
 				sql.append("INSERT INTO reserve_status(rs_userid, rs_storeid, rs_available) VALUES(?,?,'N')");
 					
 				pstmt = conn.prepareStatement(sql.toString());
@@ -100,7 +100,7 @@ public class androidReserveAddServlet extends HttpServlet {
 				out.print(c);
 					
 			} else if(result == 1) {
-				// ±âÁ¸¿¡ ¿¹¾àÇÑ Àû ÀÖÁö¸¸ ÇöÀç ¿¹¾à °¡´ÉÇÑ »óÅÂ
+				// ê¸°ì¡´ì— ì˜ˆì•½í•œ ì  ìˆì§€ë§Œ í˜„ì¬ ì˜ˆì•½ ê°€ëŠ¥í•œ ìƒíƒœ
 				sql.append("INSERT INTO reserve(rv_sno, rv_time, rv_userid, rv_personnel, rv_status) VALUES(?,?,?,?,?)");
 					
 				pstmt = conn.prepareStatement(sql.toString());
@@ -111,13 +111,13 @@ public class androidReserveAddServlet extends HttpServlet {
 				pstmt.setInt(5, 1);
 					
 				c = pstmt.executeUpdate();
-				// ÃÊ±âÈ­
+				// ì´ˆê¸°í™”
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 					
-				// ±âÁ¸¿¡ ÀÖ´Â µ¥ÀÌÅÍ´Â ÀÖÀ¸´Ï±î status Å×ÀÌºí update 
+				// ê¸°ì¡´ì— ìˆëŠ” ë°ì´í„°ëŠ” ìˆìœ¼ë‹ˆê¹Œ status í…Œì´ë¸” update 
 				sql.append("UPDATE reserve_status SET rs_available='N' WHERE rs_userid=? AND rs_storeid=?");
-				System.out.println("¾÷µ¥ÀÌÆ® µÆ³ª?");
+				System.out.println("ì—…ë°ì´íŠ¸ ëë‚˜?");
 				pstmt = conn.prepareStatement(sql.toString());
 					
 				pstmt.setString(1, rs_userid);
