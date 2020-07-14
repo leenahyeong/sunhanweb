@@ -77,13 +77,13 @@
 
   >![reserve_child](https://user-images.githubusercontent.com/68145824/87397823-e8188c80-c5ef-11ea-80a0-fb018fd2aa8a.gif)
 
-<br>
+  <br>
 
    #### 2.2 후원자(예약거절)
 
   >![reserve_refuse](https://user-images.githubusercontent.com/68145824/87397895-067e8800-c5f0-11ea-9381-8113fabb9eaa.gif)
 
-<br>
+  <br>
 
    #### 2.3 후원자(예약승인, 방문완료)
 
@@ -98,6 +98,8 @@
 
    #### 3.1 아동이 리뷰 작성 시
 
+   - MYSQL의 ON DELETE CASCADE를 제약조건으로 하여 해당 글이 삭제되면 해당 글에 달린 댓글도 같이 삭제됨
+   
   >![review_child](https://user-images.githubusercontent.com/68145824/87397909-0bdbd280-c5f0-11ea-8026-7c77d90a84c7.gif)
 
 <br>
