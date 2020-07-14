@@ -20,7 +20,7 @@ public class PhotoDAO {
 	private ResultSet rs;
 
 	private PhotoDAO() {
-	} // ½Ì±ÛÅæ ÆĞÅÏÀÌ¶ó »ı¼ºÀÚ ¼û±è
+	} // ì‹±ê¸€í†¤ íŒ¨í„´ì´ë¼ ìƒì„±ì ìˆ¨ê¹€
 
 	public static synchronized PhotoDAO getInstance() {
 		if (dao == null) {
@@ -30,12 +30,12 @@ public class PhotoDAO {
 	}
 
 	public Connection getConnection() {
-		// Ä¿³Ø¼Ç Ç® Ã£À½
+		// ì»¤ë„¥ì…˜ í’€ ì°¾ìŒ
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -44,7 +44,7 @@ public class PhotoDAO {
 		return conn;
 	}
 
-	// ±Û¾²±â
+	// ê¸€ì“°ê¸°
 	public int insert(PhotoDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -76,7 +76,7 @@ public class PhotoDAO {
 		return result;
 	}
 
-	// »ó¼¼È­¸é
+	// ìƒì„¸í™”ë©´
 	public PhotoDTO detail(int bno) {
 		pstmt = null;
 		rs = null;
@@ -121,7 +121,7 @@ public class PhotoDAO {
 		return dto;
 	}
 
-	// ÀÌÀü±Û
+	// ì´ì „ê¸€
 	public PhotoDTO prev(int bno) {
 		pstmt = null;
 		rs = null;
@@ -158,7 +158,7 @@ public class PhotoDAO {
 		return dto;
 	}
 
-	// ´ÙÀ½±Û
+	// ë‹¤ìŒê¸€
 	public PhotoDTO next(int bno) {
 		pstmt = null;
 		rs = null;
@@ -196,14 +196,14 @@ public class PhotoDAO {
 
 	}
 
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
+	// ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ (ê²€ìƒ‰ë„ ë”°ë¡œ)
 	public int totalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		int count = 0;
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 
 		try {
 			conn = this.getConnection();
@@ -214,21 +214,21 @@ public class PhotoDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // Á¦¸ñ
+			} else if (option.equals("0")) { // ì œëª©
 				sql.append("SELECT count(*) FROM photo WHERE subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // ³»¿ë
+			} else if (option.equals("1")) { // ë‚´ìš©
 				sql.append("SELECT count(*) FROM photo WHERE content like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // Á¦¸ñ+³»¿ë
+			} else if (option.equals("2")) { // ì œëª©+ë‚´ìš©
 				sql.append("SELECT count(*) FROM photo WHERE content like ? OR subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -236,7 +236,7 @@ public class PhotoDAO {
 				pstmt.setString(2, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // ÀÛ¼ºÀÚ
+			} else if (option.equals("3")) { // ì‘ì„±ì
 				sql.append("SELECT count(*) FROM photo WHERE name like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -268,15 +268,15 @@ public class PhotoDAO {
 		return count;
 	}
 
-	// °Ô½Ã±Û ¸®½ºÆ®
+	// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸
 	public List<PhotoDTO> list(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		List<PhotoDTO> list = new ArrayList<PhotoDTO>();
-		// put Ãß°¡
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		// put ì¶”ê°€
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 		int start = (Integer) listObj.get("start");
 		int end = (Integer) listObj.get("end");
 
@@ -284,7 +284,7 @@ public class PhotoDAO {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 
-			if (option == null) { // °Ë»öx, ±Û¸ñ·Ï ÀüÃ¼
+			if (option == null) { // ê²€ìƒ‰x, ê¸€ëª©ë¡ ì „ì²´
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" photo.bno, photo.subject, photo.reg_date, photo.id, photo.name, photo.hit, photo.thumbnail")
 						.append("").append(" FROM photo WHERE (@rownum:=0)=0")
@@ -293,10 +293,10 @@ public class PhotoDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setInt(1, start);
-				pstmt.setInt(2, end); // 9°³
+				pstmt.setInt(2, end); // 9ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // Á¦¸ñ °Ë»ö
+			} else if (option.equals("0")) { // ì œëª© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" photo.bno, photo.subject, photo.reg_date, photo.id, photo.name, photo.hit, photo.thumbnail")
 						.append(" FROM photo WHERE (@rownum:=0)=0 and subject like ?").append(" ORDER BY bno DESC")
@@ -306,10 +306,10 @@ public class PhotoDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 9°³
+				pstmt.setInt(3, end); // 9ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // ³»¿ë °Ë»ö
+			} else if (option.equals("1")) { // ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" photo.bno, photo.subject, photo.reg_date, photo.id, photo.name, photo.hit, photo.thumbnail")
 						.append(" FROM photo WHERE (@rownum:=0)=0 and content like ?").append(" ORDER BY bno DESC")
@@ -319,10 +319,10 @@ public class PhotoDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 9°³
+				pstmt.setInt(3, end); // 9ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // Á¦¸ñ+³»¿ë °Ë»ö
+			} else if (option.equals("2")) { // ì œëª©+ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" photo.bno, photo.subject, photo.reg_date, photo.id, photo.name, photo.hit, photo.thumbnail")
 						.append(" FROM photo WHERE (@rownum:=0)=0 and subject like ? OR content like ?")
@@ -333,10 +333,10 @@ public class PhotoDAO {
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setString(2, "%" + keyword + "%");
 				pstmt.setInt(3, start);
-				pstmt.setInt(4, end); // 9°³
+				pstmt.setInt(4, end); // 9ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // ÀÛ¼ºÀÚ °Ë»ö
+			} else if (option.equals("3")) { // ì‘ì„±ì ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" photo.bno, photo.subject, photo.reg_date, photo.id, photo.name, photo.hit, photo.thumbnail")
 						.append(" FROM photo WHERE (@rownum:=0)=0 and name like ?").append(" ORDER BY bno DESC")
@@ -346,7 +346,7 @@ public class PhotoDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 9°³
+				pstmt.setInt(3, end); // 9ê°œ
 
 				sql.delete(0, sql.toString().length());
 			}
@@ -382,7 +382,7 @@ public class PhotoDAO {
 		return list;
 	}
 
-	// »èÁ¦
+	// ì‚­ì œ
 	public int delete(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -413,7 +413,7 @@ public class PhotoDAO {
 		return result;
 	}
 
-	// ¼öÁ¤
+	// ìˆ˜ì •
 	public int update(PhotoDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -447,7 +447,7 @@ public class PhotoDAO {
 		return result;
 	}
 
-	// Á¶È¸¼ö
+	// ì¡°íšŒìˆ˜
 	public int hit(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -475,9 +475,9 @@ public class PhotoDAO {
 		return result;
 	}
 
-	// -----------------ÄÚ¸àÆ® ºÎºĞ--------------------//
+	// -----------------ì½”ë©˜íŠ¸ ë¶€ë¶„--------------------//
 
-	// ´ñ±Û ÃÑ °¹¼ö
+	// ëŒ“ê¸€ ì´ ê°¯ìˆ˜
 	public int cmt_count(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -514,7 +514,7 @@ public class PhotoDAO {
 		return count;
 	}
 
-	// ´ñ±Û ÀÛ¼º
+	// ëŒ“ê¸€ ì‘ì„±
 	public int cmt_insert(PTcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -548,7 +548,7 @@ public class PhotoDAO {
 	}
 
 	
-	// ´ñ±Û ¸®½ºÆ®
+	// ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸
 	public List<PTcmtDTO> cmt_list(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -589,7 +589,7 @@ public class PhotoDAO {
 		return list;
 	}
 
-	// ´ñ±Û µğÅ×ÀÏ(ÇÑ ´ñ±Û º¸±â)
+	// ëŒ“ê¸€ ë””í…Œì¼(í•œ ëŒ“ê¸€ ë³´ê¸°)
 	public PTcmtDTO cmt_detail(int cmt_cno) {
 		pstmt = null;
 		rs = null;
@@ -622,7 +622,7 @@ public class PhotoDAO {
 		
 	}
 	
-	// ´ñ±Û ¼öÁ¤
+	// ëŒ“ê¸€ ìˆ˜ì •
 	public int cmt_update(PTcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -654,7 +654,7 @@ public class PhotoDAO {
 		return result;
 	}
 	
-	// ´ñ±Û »èÁ¦
+	// ëŒ“ê¸€ ì‚­ì œ
 	public void cmt_delete(int cmt_cno) {
 		pstmt = null;
 		
