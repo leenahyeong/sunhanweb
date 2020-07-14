@@ -1,7 +1,7 @@
 # 선한영향력(Good Influence)
 
 # 프로젝트 소개
-
+![image](https://user-images.githubusercontent.com/68145824/87402749-f8803580-c5f6-11ea-8bcf-41c208278507.png)
 '선한영향력'은 결식아동과 결식아동들을 후원하는 후원매장을 연결시켜주는 웹 어플리케이션입니다.
 
 프로젝트 기간
