@@ -20,7 +20,7 @@ public class ReviewDAO {
 	private ResultSet rs;
 
 	private ReviewDAO() {
-	} // ½Ì±ÛÅæ ÆĞÅÏÀÌ¶ó »ı¼ºÀÚ ¼û±è
+	} // ì‹±ê¸€í†¤ íŒ¨í„´ì´ë¼ ìƒì„±ì ìˆ¨ê¹€
 
 	public static synchronized ReviewDAO getInstance() {
 		if (dao == null) {
@@ -30,12 +30,12 @@ public class ReviewDAO {
 	}
 
 	public Connection getConnection() {
-		// Ä¿³Ø¼Ç Ç® Ã£À½
+		// ì»¤ë„¥ì…˜ í’€ ì°¾ìŒ
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -44,18 +44,18 @@ public class ReviewDAO {
 		return conn;
 	}
 
-	// ¸®ºäÀÛ¼º
+	// ë¦¬ë·°ì‘ì„±
 	public int reviewInsert(ReviewDTO dto, int admin) {
 		pstmt = null;
 		rs = null;
 
 		StringBuffer sql = new StringBuffer();
-		int result = 0; // Äõ¸®°á°ú
+		int result = 0; // ì¿¼ë¦¬ê²°ê³¼
 
 		try {
 			conn = this.getConnection();
 
-			// ¾Æµ¿ÀÌ ¸®ºä ´Ş¾ÒÀ»¶§
+			// ì•„ë™ì´ ë¦¬ë·° ë‹¬ì•˜ì„ë•Œ
 			if (admin == 0) {
 				sql.append("SELECT max(review_group) FROM review");
 
@@ -70,9 +70,9 @@ public class ReviewDAO {
 				} else {
 					maxvalue = 1;
 				}
-				System.out.println(maxvalue + "¿¨?");
+				System.out.println(maxvalue + "ì—¥?");
 
-				// ÃÊ±âÈ­
+				// ì´ˆê¸°í™”
 				pstmt.clearParameters();
 				sql.delete(0, sql.toString().length());
 
@@ -96,7 +96,7 @@ public class ReviewDAO {
 				sql.delete(0, sql.toString().length());
 			}
 
-			// »çÀåÀÌ ¸®ºä¿¡ ´ëÇÑ ´ä±Û ´Ş¾ÒÀ»¶§
+			// ì‚¬ì¥ì´ ë¦¬ë·°ì— ëŒ€í•œ ë‹µê¸€ ë‹¬ì•˜ì„ë•Œ
 			else if (admin == 1) {
 				sql.append(
 						"INSERT INTO review(review_group, review_depth, review_rno, review_userid, review_storeid, review_content)")
@@ -134,7 +134,7 @@ public class ReviewDAO {
 		return result;
 	}
 
-	// ¸®ºä µğÅ×ÀÏ
+	// ë¦¬ë·° ë””í…Œì¼
 	public ReviewJoinDTO reviewDetail(int no, int check) {
 		pstmt = null;
 		rs = null;
@@ -146,7 +146,7 @@ public class ReviewDAO {
 		try {
 			conn = this.getConnection();
 			
-			// ¿¹¾à¿¡¼­ rno·Î °Ë»ö
+			// ì˜ˆì•½ì—ì„œ rnoë¡œ ê²€ìƒ‰
 			if(check == 0) {
 				sql.append("SELECT r.*, s.shopname, sh.name FROM review as r")
 				.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
@@ -159,7 +159,7 @@ public class ReviewDAO {
 				
 				sql.delete(0, sql.toString().length());
 			}
-			// ¸®ºä¿¡¼­ no·Î °Ë»ö
+			// ë¦¬ë·°ì—ì„œ noë¡œ ê²€ìƒ‰
 			else if(check == 1) {
 				sql.append("SELECT r.*, s.shopname, sh.name FROM review as r")
 				.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
@@ -207,25 +207,25 @@ public class ReviewDAO {
 		return dto;
 	}
 
-	// ¸®ºä ÀüÃ¼ ¸®½ºÆ®
+	// ë¦¬ë·° ì „ì²´ ë¦¬ìŠ¤íŠ¸
 	public List<ReviewJoinDTO> reviewList(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		List<ReviewJoinDTO> list = new ArrayList<ReviewJoinDTO>();
 
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
+		// ê²€ìƒ‰ì¡°ê±´ì— í•„ìš”í•œ ê²ƒë“¤
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
 
-		// ÆäÀÌÂ¡
+		// í˜ì´ì§•
 		int start = (Integer) listObj.get("start");
 
-		// È¸¿ø°ü·Ã
+		// íšŒì›ê´€ë ¨
 		int admin = (Integer) listObj.get("admin");
-		String userid = (String) listObj.get("userid"); // ÇöÀç Á¶È¸¸¦ ÇÑ »ç¿ëÀÚ
-		// ¿¹¾à¿¡¼­ ¸®ºäº¸±â ´­·¶À»¶§ ¹Ù·Î°¡´Â ¹öÆ°
+		String userid = (String) listObj.get("userid"); // í˜„ì¬ ì¡°íšŒë¥¼ í•œ ì‚¬ìš©ì
+		// ì˜ˆì•½ì—ì„œ ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ë°”ë¡œê°€ëŠ” ë²„íŠ¼
 		int review_no = (Integer) listObj.get("review_no");
 
 		try {
@@ -233,11 +233,11 @@ public class ReviewDAO {
 
 			StringBuffer sql = new StringBuffer();
 
-			// ¾Æµ¿¸®½ºÆ®
+			// ì•„ë™ë¦¬ìŠ¤íŠ¸
 			if (admin == 0) {
-				// ¿¹¾à¿¡¼­ ¹Ù·Î ¸®ºäº¸±â ´­·¶À»¶§ ¿©±â ½ÇÇà
+				// ì˜ˆì•½ì—ì„œ ë°”ë¡œ ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ì—¬ê¸° ì‹¤í–‰
 				if (review_no != 0) {
-					System.out.println("¸®ºäº¸±â ´­·¶À»¶§ ¿©±â!");
+					System.out.println("ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ì—¬ê¸°!");
 					sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 							.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 							.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -252,10 +252,10 @@ public class ReviewDAO {
 
 					sql.delete(0, sql.toString().length());
 				}
-				// ¾Æ´Ò¶© ¿©±â
+				// ì•„ë‹ë• ì—¬ê¸°
 				else {
 					if (start_date == "" && end_date == "" && search_userid == "") {
-						System.out.println("Á¶°Ç¾ø´Â°Å ¿©±â ¿©±â!" + search_userid);
+						System.out.println("ì¡°ê±´ì—†ëŠ”ê±° ì—¬ê¸° ì—¬ê¸°!" + search_userid);
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -269,9 +269,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ³¯Â¥¸¸ °Ë»ö½Ã
+					// ë‚ ì§œë§Œ ê²€ìƒ‰ì‹œ
 					else if (start_date != "" && end_date != "" && search_userid == "") {
-						System.out.println("³¯Â¥¸¸°Ë»ö ¿©±â!");
+						System.out.println("ë‚ ì§œë§Œê²€ìƒ‰ ì—¬ê¸°!");
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -287,9 +287,9 @@ public class ReviewDAO {
 
 						sql.delete(0, sql.toString().length());
 					}
-					// ÇØ´ç °¡°Ô¸¸ °Ë»ö
+					// í•´ë‹¹ ê°€ê²Œë§Œ ê²€ìƒ‰
 					else if (start_date == "" && end_date == "" && search_userid != "") {
-						System.out.println("°¡°Ô¸í ¿©±â!");
+						System.out.println("ê°€ê²Œëª… ì—¬ê¸°!");
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -305,9 +305,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ÀüÃ¼°Ë»ö
+					// ì „ì²´ê²€ìƒ‰
 					else if (start_date != "" && end_date != "" && search_userid != "") {
-						System.out.println("ÀüÃ¼°Ë»ö ¿©±â!" + start_date);
+						System.out.println("ì „ì²´ê²€ìƒ‰ ì—¬ê¸°!" + start_date);
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -329,10 +329,10 @@ public class ReviewDAO {
 				}
 			}
 
-			// ÈÄ¿øÀÚ¸®½ºÆ®
+			// í›„ì›ìë¦¬ìŠ¤íŠ¸
 			else if (admin == 1) {
 				if (review_no != 0) {
-					System.out.println("¸®ºäº¸±â ´­·¶À»¶§ ¿©±â2!");
+					System.out.println("ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ì—¬ê¸°2!");
 					sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 							.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 							.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -347,10 +347,10 @@ public class ReviewDAO {
 
 					sql.delete(0, sql.toString().length());
 				}
-				// ¾Æ´Ò¶© ¿©±â
+				// ì•„ë‹ë• ì—¬ê¸°
 				else {
 					if (start == 0 && start_date == "" && end_date == "" && search_userid == "") {
-						System.out.println("¿©±ä ajax¿ë" + userid);
+						System.out.println("ì—¬ê¸´ ajaxìš©" + userid);
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -364,7 +364,7 @@ public class ReviewDAO {
 					}
 					
 					if (start != 0 && start_date == "" && end_date == "" && search_userid == "") {
-						System.out.println("Á¶°Ç¾ø´Â°Å ¿©±â ¿©±â2!" + userid);
+						System.out.println("ì¡°ê±´ì—†ëŠ”ê±° ì—¬ê¸° ì—¬ê¸°2!" + userid);
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -378,9 +378,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ³¯Â¥¸¸ °Ë»ö½Ã
+					// ë‚ ì§œë§Œ ê²€ìƒ‰ì‹œ
 					else if (start_date != "" && end_date != "" && search_userid == "") {
-						System.out.println("³¯Â¥¸¸°Ë»ö ¿©±â2!");
+						System.out.println("ë‚ ì§œë§Œê²€ìƒ‰ ì—¬ê¸°2!");
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -397,9 +397,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ÇØ´ç °¡°Ô¸¸ °Ë»ö
+					// í•´ë‹¹ ê°€ê²Œë§Œ ê²€ìƒ‰
 					else if (start_date == "" && end_date == "" && search_userid != "") {
-						System.out.println("°¡°Ô¸í ¿©±â2!");
+						System.out.println("ê°€ê²Œëª… ì—¬ê¸°2!");
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -415,9 +415,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ÀüÃ¼°Ë»ö
+					// ì „ì²´ê²€ìƒ‰
 					else if (start_date != "" && end_date != "" && search_userid != "") {
-						System.out.println("ÀüÃ¼°Ë»ö ¿©±â2!" + start_date);
+						System.out.println("ì „ì²´ê²€ìƒ‰ ì—¬ê¸°2!" + start_date);
 						sql.append("SELECT DISTINCT r.*, s.shopname, sh.name FROM review AS r")
 								.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 								.append(" LEFT OUTER JOIN review AS re ON r.review_group = re.review_group")
@@ -476,7 +476,7 @@ public class ReviewDAO {
 		return list;
 	}
 
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
+	// ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ (ê²€ìƒ‰ë„ ë”°ë¡œ)
 	public List<Integer> reviewtotalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
@@ -484,25 +484,25 @@ public class ReviewDAO {
 		List<Integer> list = new ArrayList<Integer>();
 		int count = 0;
 
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
+		// ê²€ìƒ‰ì¡°ê±´ì— í•„ìš”í•œ ê²ƒë“¤
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
-		// È¸¿ø°ü·Ã
+		// íšŒì›ê´€ë ¨
 		int admin = (Integer) listObj.get("admin");
-		String userid = (String) listObj.get("userid"); // ÇöÀç Á¶È¸¸¦ ÇÑ »ç¿ëÀÚ
-		// ¿¹¾à¿¡¼­ ¸®ºäº¸±â ´­·¶À»¶§ ¹Ù·Î°¡´Â ¹öÆ°
+		String userid = (String) listObj.get("userid"); // í˜„ì¬ ì¡°íšŒë¥¼ í•œ ì‚¬ìš©ì
+		// ì˜ˆì•½ì—ì„œ ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ë°”ë¡œê°€ëŠ” ë²„íŠ¼
 		Integer review_no = (Integer) listObj.get("review_no");
 
 		try {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 
-			// ¾Æµ¿¸®½ºÆ®
+			// ì•„ë™ë¦¬ìŠ¤íŠ¸
 			if (admin == 0) {
-				// ¿¹¾à¿¡¼­ ¹Ù·Î ¸®ºäº¸±â ´­·¶À»¶§ ¿©±â ½ÇÇà
+				// ì˜ˆì•½ì—ì„œ ë°”ë¡œ ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ì—¬ê¸° ì‹¤í–‰
 				if (review_no != 0) {
-					sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+					sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 					.append(" round(avg(review_score)) FROM review WHERE review_no=?");
 					pstmt = conn.prepareStatement(sql.toString());
 
@@ -511,10 +511,10 @@ public class ReviewDAO {
 					sql.delete(0, sql.toString().length());
 				}
 
-				// ¾Æ´Ò¶© ¿©±â
+				// ì•„ë‹ë• ì—¬ê¸°
 				else {
 					if (start_date == "" && end_date == "" && search_userid == "") {
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review WHERE review_userid=?");
 
 						pstmt = conn.prepareStatement(sql.toString());
@@ -523,9 +523,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ³¯Â¥¸¸ °Ë»ö½Ã
+					// ë‚ ì§œë§Œ ê²€ìƒ‰ì‹œ
 					else if (start_date != "" && end_date != "" && search_userid == "") {
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review WHERE review_userid=? AND CONVERT(review_date, date) BETWEEN ? AND ?");		
 
 						pstmt = conn.prepareStatement(sql.toString());
@@ -536,9 +536,9 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ÇØ´ç °¡°Ô¸¸ °Ë»ö
+					// í•´ë‹¹ ê°€ê²Œë§Œ ê²€ìƒ‰
 					else if (start_date == "" && end_date == "" && search_userid != "") {
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review AS r")
 						.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 						.append(" WHERE review_userid=? AND s.shopname like ?");
@@ -549,9 +549,9 @@ public class ReviewDAO {
 
 						sql.delete(0, sql.toString().length());
 					}
-					// ÀüÃ¼°Ë»ö
+					// ì „ì²´ê²€ìƒ‰
 					else if (start_date != "" && end_date != "" && search_userid != "") {
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review AS r")
 						.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 						.append(" WHERE review_userid=? AND CONVERT(review_date, date) BETWEEN ? AND ? AND s.shopname like ?");
@@ -566,9 +566,9 @@ public class ReviewDAO {
 					}
 				}
 			} else if (admin == 1) {
-				// ¿¹¾à¿¡¼­ ¹Ù·Î ¸®ºäº¸±â ´­·¶À»¶§ ¿©±â ½ÇÇà
+				// ì˜ˆì•½ì—ì„œ ë°”ë¡œ ë¦¬ë·°ë³´ê¸° ëˆŒë €ì„ë•Œ ì—¬ê¸° ì‹¤í–‰
 				if (review_no != 0) {
-					sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+					sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 					.append(" round(avg(review_score)) FROM review WHERE review_no=?");
 
 					pstmt.setInt(1, review_no);
@@ -576,11 +576,11 @@ public class ReviewDAO {
 					sql.delete(0, sql.toString().length());
 				}
 
-				// ¾Æ´Ò¶© ¿©±â
+				// ì•„ë‹ë• ì—¬ê¸°
 				else {
 					if (start_date == "" && end_date == "" && search_userid == "") {
 
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review WHERE review_storeid=?");
 
 						pstmt = conn.prepareStatement(sql.toString());
@@ -589,10 +589,10 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ³¯Â¥¸¸ °Ë»ö½Ã
+					// ë‚ ì§œë§Œ ê²€ìƒ‰ì‹œ
 					else if (start_date != "" && end_date != "" && search_userid == "") {
 
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review WHERE review_storeid=? AND CONVERT(review_date, date) BETWEEN ? AND ?");		
 
 						pstmt = conn.prepareStatement(sql.toString());
@@ -603,10 +603,10 @@ public class ReviewDAO {
 						sql.delete(0, sql.toString().length());
 					}
 
-					// ÇØ´ç °¡°Ô¸¸ °Ë»ö
+					// í•´ë‹¹ ê°€ê²Œë§Œ ê²€ìƒ‰
 					else if (start_date == "" && end_date == "" && search_userid != "") {
 
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review AS r")
 						.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 						.append(" WHERE review_storeid=? AND s.shopname like ?");
@@ -617,10 +617,10 @@ public class ReviewDAO {
 
 						sql.delete(0, sql.toString().length());
 					}
-					// ÀüÃ¼°Ë»ö
+					// ì „ì²´ê²€ìƒ‰
 					else if (start_date != "" && end_date != "" && search_userid != "") {
 						
-						sql.append("SELECT count(case when review_depth = 0 then 0 end) as '¾Æµ¿', count(case when review_depth = 1 then 0 end) as '»çÀå',")
+						sql.append("SELECT count(case when review_depth = 0 then 0 end) as 'ì•„ë™', count(case when review_depth = 1 then 0 end) as 'ì‚¬ì¥',")
 						.append(" round(avg(review_score)) FROM review AS r")
 						.append(" LEFT OUTER JOIN store as s ON r.review_storeid = s.userid")
 						.append(" WHERE review_storeid=? AND CONVERT(review_date, date) BETWEEN ? AND ? AND s.shopname like ?");
@@ -660,7 +660,7 @@ public class ReviewDAO {
 		return list;
 	}
 
-	// ¸®ºä ¼öÁ¤
+	// ë¦¬ë·° ìˆ˜ì •
 	public int reviewUpdate(ReviewDTO dto, int admin) {
 		pstmt = null;
 		int result = 0;
@@ -705,7 +705,7 @@ public class ReviewDAO {
 		return result;
 	}
 	
-	// ¸®ºä »èÁ¦
+	// ë¦¬ë·° ì‚­ì œ
 	public int reviewDelete(int review_no, int check) {
 		pstmt = null;
 		int result = 0;
@@ -714,7 +714,7 @@ public class ReviewDAO {
 		try {
 			conn = this.getConnection();
 			
-			// ¾Æµ¿ÀÌ »èÁ¦¿äÃ»ÇßÀ»¶§´Â ´ä±Û´Ş¸° »çÀå¸®ºäµµ »èÁ¦
+			// ì•„ë™ì´ ì‚­ì œìš”ì²­í–ˆì„ë•ŒëŠ” ë‹µê¸€ë‹¬ë¦° ì‚¬ì¥ë¦¬ë·°ë„ ì‚­ì œ
 			if(check == 0) {
 				sql.append("DELETE review.* FROM review")
 				.append(" LEFT OUTER JOIN review as re")
@@ -725,7 +725,7 @@ public class ReviewDAO {
 				pstmt.setInt(1, review_no);
 			}
 			
-			// »çÀåÀÌ »èÁ¦¿äÃ»
+			// ì‚¬ì¥ì´ ì‚­ì œìš”ì²­
 			else if(check == 1) {
 				sql.append("DELETE FROM review")
 				.append(" WHERE review_no = ?");
