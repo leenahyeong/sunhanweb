@@ -28,7 +28,7 @@
 <br>
 디자인
 
-- HTML, CSS, JS 프레임워크인 Bootstrap 사용
+- Bootstrap(html,css,js)
 
 <br>
 언어
@@ -55,6 +55,8 @@
 - 썸머노트 에디터 사용 (AJAX로 이미지 업로드)
 
 - 댓글(CRUD) AJAX로 구현
+
+- 페이징 처리
 
   #### 1.1 공지사항
 
