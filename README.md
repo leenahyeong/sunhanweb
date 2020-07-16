@@ -33,7 +33,7 @@
 <br>
 언어
 
- - JAVA
+ - JAVA, JSP
  
 <br>
 데이터베이스
