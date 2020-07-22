@@ -26,9 +26,9 @@ public class ChatDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "mysqluser";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
         
 			Connection conn =  DriverManager.getConnection(dbURL, dbID, dbPW);
         

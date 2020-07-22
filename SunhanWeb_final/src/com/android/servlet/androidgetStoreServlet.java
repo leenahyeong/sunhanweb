@@ -49,9 +49,9 @@ public class androidgetStoreServlet extends HttpServlet {
 					// 3. 드라이버를 사용해서 디비 연결 아이디/비밀번호/디비 주소
 					// mysql-connector-java 6.XX 이상 사용시 디비 접근 주소(서버시간 인식 오류)
 					// String dbURL = "jdbc:mysql://localhost:3306/itwill";
-					String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-					String dbID = "mysqluser";
-					String dbPW = "user123";
+					String dbURL = "*";
+					String dbID = "*";
+					String dbPW = "*";
 					 
 					Connection conn =  DriverManager.getConnection(dbURL, dbID, dbPW);
              

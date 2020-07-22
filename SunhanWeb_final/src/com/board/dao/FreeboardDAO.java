@@ -20,7 +20,7 @@ public class FreeboardDAO {
 	private ResultSet rs;
 
 	private FreeboardDAO() {
-	} // ½Ì±ÛÅæ ÆĞÅÏÀÌ¶ó »ı¼ºÀÚ ¼û±è
+	} // ì‹±ê¸€í†¤ íŒ¨í„´ì´ë¼ ìƒì„±ì ìˆ¨ê¹€
 
 	public static synchronized FreeboardDAO getInstance() {
 		if (dao == null) {
@@ -30,12 +30,12 @@ public class FreeboardDAO {
 	}
 
 	public Connection getConnection() {
-		// Ä¿³Ø¼Ç Ç® Ã£À½
+		// ì»¤ë„¥ì…˜ í’€ ì°¾ìŒ
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -44,7 +44,7 @@ public class FreeboardDAO {
 		return conn;
 	}
 
-	// ±Û¾²±â
+	// ê¸€ì“°ê¸°
 	public int insert(FreeboardDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -75,7 +75,7 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// »ó¼¼È­¸é
+	// ìƒì„¸í™”ë©´
 	public FreeboardDTO detail(int bno) {
 		pstmt = null;
 		rs = null;
@@ -119,7 +119,7 @@ public class FreeboardDAO {
 		return dto;
 	}
 
-	// ÀÌÀü±Û
+	// ì´ì „ê¸€
 	public FreeboardDTO prev(int bno) {
 		pstmt = null;
 		rs = null;
@@ -156,7 +156,7 @@ public class FreeboardDAO {
 		return dto;
 	}
 
-	// ´ÙÀ½±Û
+	// ë‹¤ìŒê¸€
 	public FreeboardDTO next(int bno) {
 		pstmt = null;
 		rs = null;
@@ -194,14 +194,14 @@ public class FreeboardDAO {
 
 	}
 
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
+	// ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ (ê²€ìƒ‰ë„ ë”°ë¡œ)
 	public int totalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		int count = 0;
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 
 		try {
 			conn = this.getConnection();
@@ -212,21 +212,21 @@ public class FreeboardDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // Á¦¸ñ
+			} else if (option.equals("0")) { // ì œëª©
 				sql.append("SELECT count(*) FROM freeboard WHERE subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // ³»¿ë
+			} else if (option.equals("1")) { // ë‚´ìš©
 				sql.append("SELECT count(*) FROM freeboard WHERE content like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // Á¦¸ñ+³»¿ë
+			} else if (option.equals("2")) { // ì œëª©+ë‚´ìš©
 				sql.append("SELECT count(*) FROM freeboard WHERE content like ? OR subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -234,7 +234,7 @@ public class FreeboardDAO {
 				pstmt.setString(2, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // ÀÛ¼ºÀÚ
+			} else if (option.equals("3")) { // ì‘ì„±ì
 				sql.append("SELECT count(*) FROM freeboard WHERE name like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -266,15 +266,15 @@ public class FreeboardDAO {
 		return count;
 	}
 
-	// °Ô½Ã±Û ¸®½ºÆ®
+	// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸
 	public List<FreeboardDTO> list(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		List<FreeboardDTO> list = new ArrayList<FreeboardDTO>();
-		// put Ãß°¡
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		// put ì¶”ê°€
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 		int start = (Integer) listObj.get("start");
 		int end = (Integer) listObj.get("end");
 
@@ -282,7 +282,7 @@ public class FreeboardDAO {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 
-			if (option == null) { // °Ë»öx, ±Û¸ñ·Ï ÀüÃ¼
+			if (option == null) { // ê²€ìƒ‰x, ê¸€ëª©ë¡ ì „ì²´
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append("").append(" FROM freeboard WHERE (@rownum:=0)=0")
@@ -291,10 +291,10 @@ public class FreeboardDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setInt(1, start);
-				pstmt.setInt(2, end); // 10°³
+				pstmt.setInt(2, end); // 10ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // Á¦¸ñ °Ë»ö
+			} else if (option.equals("0")) { // ì œëª© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and subject like ?").append(" ORDER BY bno DESC")
@@ -304,10 +304,10 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10°³
+				pstmt.setInt(3, end); // 10ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // ³»¿ë °Ë»ö
+			} else if (option.equals("1")) { // ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and content like ?").append(" ORDER BY bno DESC")
@@ -317,10 +317,10 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10°³
+				pstmt.setInt(3, end); // 10ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // Á¦¸ñ+³»¿ë °Ë»ö
+			} else if (option.equals("2")) { // ì œëª©+ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and subject like ? OR content like ?")
@@ -331,10 +331,10 @@ public class FreeboardDAO {
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setString(2, "%" + keyword + "%");
 				pstmt.setInt(3, start);
-				pstmt.setInt(4, end); // 10°³
+				pstmt.setInt(4, end); // 10ê°œ
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // ÀÛ¼ºÀÚ °Ë»ö
+			} else if (option.equals("3")) { // ì‘ì„±ì ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and name like ?").append(" ORDER BY bno DESC")
@@ -344,7 +344,7 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10°³
+				pstmt.setInt(3, end); // 10ê°œ
 
 				sql.delete(0, sql.toString().length());
 			}
@@ -379,7 +379,7 @@ public class FreeboardDAO {
 		return list;
 	}
 
-	// »èÁ¦
+	// ì‚­ì œ
 	public int delete(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -410,7 +410,7 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// ¼öÁ¤
+	// ìˆ˜ì •
 	public int update(FreeboardDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -444,7 +444,7 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// Á¶È¸¼ö
+	// ì¡°íšŒìˆ˜
 	public int hit(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -472,9 +472,9 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// -----------------ÄÚ¸àÆ® ºÎºĞ--------------------//
+	// -----------------ì½”ë©˜íŠ¸ ë¶€ë¶„--------------------//
 
-	// ´ñ±Û ÃÑ °¹¼ö
+	// ëŒ“ê¸€ ì´ ê°¯ìˆ˜
 	public int cmt_count(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -511,7 +511,7 @@ public class FreeboardDAO {
 		return count;
 	}
 
-	// ´ñ±Û ÀÛ¼º
+	// ëŒ“ê¸€ ì‘ì„±
 	public int cmt_insert(FBcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -545,7 +545,7 @@ public class FreeboardDAO {
 	}
 
 	
-	// ´ñ±Û ¸®½ºÆ®
+	// ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸
 	public List<FBcmtDTO> cmt_list(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -586,7 +586,7 @@ public class FreeboardDAO {
 		return list;
 	}
 
-	// ´ñ±Û µğÅ×ÀÏ(ÇÑ ´ñ±Û º¸±â)
+	// ëŒ“ê¸€ ë””í…Œì¼(í•œ ëŒ“ê¸€ ë³´ê¸°)
 	public FBcmtDTO cmt_detail(int cmt_cno) {
 		pstmt = null;
 		rs = null;
@@ -619,7 +619,7 @@ public class FreeboardDAO {
 		
 	}
 	
-	// ´ñ±Û ¼öÁ¤
+	// ëŒ“ê¸€ ìˆ˜ì •
 	public int cmt_update(FBcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -651,7 +651,7 @@ public class FreeboardDAO {
 		return result;
 	}
 	
-	// ´ñ±Û »èÁ¦
+	// ëŒ“ê¸€ ì‚­ì œ
 	public void cmt_delete(int cmt_cno) {
 		pstmt = null;
 		

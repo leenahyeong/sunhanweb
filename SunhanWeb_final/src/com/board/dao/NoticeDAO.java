@@ -17,7 +17,7 @@ public class NoticeDAO {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	private NoticeDAO() {} // ½Ì±ÛÅæ ÆĞÅÏÀÌ¶ó »ı¼ºÀÚ ¼û±è
+	private NoticeDAO() {} // ì‹±ê¸€í†¤ íŒ¨í„´ì´ë¼ ìƒì„±ì ìˆ¨ê¹€
 	
 	public static synchronized NoticeDAO getInstance() {
 		if (dao == null) {
@@ -27,12 +27,12 @@ public class NoticeDAO {
 	}
 
 	public Connection getConnection() {
-		// Ä¿³Ø¼Ç Ç® Ã£À½
+		// ì»¤ë„¥ì…˜ í’€ ì°¾ìŒ
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 			
 			conn =  DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -41,7 +41,7 @@ public class NoticeDAO {
 		return conn;
 	}
 	
-	// ±Û¾²±â
+	// ê¸€ì“°ê¸°
 	public int insert(NoticeDTO dto) {
 		int result=0;
 		pstmt = null;
@@ -68,7 +68,7 @@ public class NoticeDAO {
 		return result;
 	}
 	
-	// »ó¼¼È­¸é
+	// ìƒì„¸í™”ë©´
 	public NoticeDTO detail(int bno) {
 		pstmt = null;
 		rs = null;
@@ -108,7 +108,7 @@ public class NoticeDAO {
 		return dto;
 	}
 	
-	// ÀÌÀü±Û
+	// ì´ì „ê¸€
 	public NoticeDTO prev(int bno) {
 		pstmt = null;
 		rs = null;
@@ -141,7 +141,7 @@ public class NoticeDAO {
 		return dto;
 	}
 	
-	// ´ÙÀ½±Û
+	// ë‹¤ìŒê¸€
 	public NoticeDTO next(int bno) {
 		pstmt = null;
 		rs = null;
@@ -175,14 +175,14 @@ public class NoticeDAO {
 		
 	}
 	
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
+	// ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ (ê²€ìƒ‰ë„ ë”°ë¡œ)
 	public int totalCount(HashMap<String, Object> listObj) { 
 		int count = 0;
 		pstmt = null;
 		rs = null;
 		
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 		
 		try {
 			conn = this.getConnection();
@@ -194,7 +194,7 @@ public class NoticeDAO {
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("0")) { // Á¦¸ñ
+			else if(option.equals("0")) { // ì œëª©
 				sql.append("SELECT count(*) FROM notice WHERE subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 				
@@ -202,7 +202,7 @@ public class NoticeDAO {
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("1")) { // ³»¿ë
+			else if(option.equals("1")) { // ë‚´ìš©
 				sql.append("SELECT count(*) FROM notice WHERE content like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 				
@@ -210,7 +210,7 @@ public class NoticeDAO {
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("2")) { // Á¦¸ñ+³»¿ë
+			else if(option.equals("2")) { // ì œëª©+ë‚´ìš©
 				sql.append("SELECT count(*) FROM notice WHERE content like ? OR subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 				
@@ -238,15 +238,15 @@ public class NoticeDAO {
 		return count;
 	}
 	
-	// °Ô½Ã±Û ¸®½ºÆ®
+	// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸
 	public List<NoticeDTO> list(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 		
 		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
-		// put Ãß°¡
-		String option = (String) listObj.get("option"); // °Ë»ö ¿É¼Ç
-		String keyword = (String) listObj.get("keyword"); // °Ë»ö Å°¿öµå
+		// put ì¶”ê°€
+		String option = (String) listObj.get("option"); // ê²€ìƒ‰ ì˜µì…˜
+		String keyword = (String) listObj.get("keyword"); // ê²€ìƒ‰ í‚¤ì›Œë“œ
 		int start = (Integer) listObj.get("start");
 		int end = (Integer) listObj.get("end");
 		
@@ -254,7 +254,7 @@ public class NoticeDAO {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 			
-			if(option == null) { // °Ë»öx, ±Û¸ñ·Ï ÀüÃ¼
+			if(option == null) { // ê²€ìƒ‰x, ê¸€ëª©ë¡ ì „ì²´
 				sql.append("SELECT @rownum:=@rownum+1 as no,")
 				.append(" notice.bno, notice.subject, notice.reg_date, notice.file1, notice.file2, notice.hit")
 				.append(" FROM notice WHERE (@rownum:=0)=0")
@@ -264,11 +264,11 @@ public class NoticeDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 				
 				pstmt.setInt(1, start);
-				pstmt.setInt(2, end); // 10°³
+				pstmt.setInt(2, end); // 10ê°œ
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("0")){ // Á¦¸ñ °Ë»ö
+			else if(option.equals("0")){ // ì œëª© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,")
 				.append(" notice.bno, notice.subject, notice.reg_date, notice.file1, notice.file2, notice.hit")
 				.append(" FROM notice WHERE (@rownum:=0)=0 and subject like ?")
@@ -279,11 +279,11 @@ public class NoticeDAO {
 				
 				pstmt.setString(1, "%"+keyword+"%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10°³
+				pstmt.setInt(3, end); // 10ê°œ
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("1")){ // ³»¿ë °Ë»ö
+			else if(option.equals("1")){ // ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,")
 				.append(" notice.bno, notice.subject, notice.reg_date, notice.file1, notice.file2, notice.hit")
 				.append(" FROM notice WHERE (@rownum:=0)=0 and content like ?")
@@ -294,11 +294,11 @@ public class NoticeDAO {
 				
 				pstmt.setString(1, "%"+keyword+"%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10°³
+				pstmt.setInt(3, end); // 10ê°œ
 				
 				sql.delete(0, sql.toString().length());
 			}
-			else if(option.equals("2")){ // Á¦¸ñ+³»¿ë °Ë»ö
+			else if(option.equals("2")){ // ì œëª©+ë‚´ìš© ê²€ìƒ‰
 				sql.append("SELECT @rownum:=@rownum+1 as no,")
 				.append(" notice.bno, notice.subject, notice.reg_date, notice.file1, notice.file2, notice.hit")
 				.append(" FROM notice WHERE (@rownum:=0)=0 and subject like ? OR content like ?")
@@ -310,7 +310,7 @@ public class NoticeDAO {
 				pstmt.setString(1, "%"+keyword+"%");
 				pstmt.setString(2, "%"+keyword+"%");
 				pstmt.setInt(3, start);
-				pstmt.setInt(4, end); // 10°³
+				pstmt.setInt(4, end); // 10ê°œ
 				
 				sql.delete(0, sql.toString().length());
 			}
@@ -342,7 +342,7 @@ public class NoticeDAO {
 		return list;
 	}
 	
-	// »èÁ¦
+	// ì‚­ì œ
 	public int delete(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -373,7 +373,7 @@ public class NoticeDAO {
 	}
 	
 	 
-	// ¼öÁ¤
+	// ìˆ˜ì •
 	public int update(NoticeDTO dto) {
 		int result = 0;
 		pstmt = null;
@@ -404,7 +404,7 @@ public class NoticeDAO {
 		return result;
 	}
 	
-	// Á¶È¸¼ö
+	// ì¡°íšŒìˆ˜
 	public int hit(int bno) {
 		pstmt = null;
 		int result = 0;
