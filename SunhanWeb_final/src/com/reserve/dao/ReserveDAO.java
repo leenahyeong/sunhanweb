@@ -347,7 +347,6 @@ public class ReserveDAO {
 				
 				// 기존에 있는 데이터는 있으니까 status 테이블 update 
 				sql.append("UPDATE reserve_status SET rs_available='N' WHERE rs_userid=? AND rs_storeid=?");
-				System.out.println("업데이트 됐나?");
 				pstmt = conn.prepareStatement(sql.toString());
 				
 				pstmt.setString(1, rs_dto.getRs_userid());
@@ -399,7 +398,7 @@ public class ReserveDAO {
 					sql.append("SELECT rv.*, s.shopname, review.review_no FROM reserve as rv")
 					.append(" LEFT OUTER JOIN store as s ON rv.rv_sno = s.userid")
 					.append(" LEFT OUTER JOIN review ON rv.rv_rno = review.review_rno")
-					.append(" WHERE rv.rv_userid = ?")
+					.append(" WHERE rv.rv_userid = ? AND review.review_depth=0")
 					.append(" ORDER BY rv_rno LIMIT ?, 15");
 					
 					pstmt = conn.prepareStatement(sql.toString());

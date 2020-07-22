@@ -45,10 +45,8 @@ public class PhotoAddController extends HttpServlet {
 
 		// 파일 업로드 하기 위해 cos.jar 추가 및 객체 생성
 		MultipartRequest multi = null;
-
-		// 파일 최대 사이즈(3메가)
+		// 파일 최대 사이즈(3m)
 		int size = 3 * 1024 * 1024;
-
 		// 업로드 될 실제 tomcat 폴더 경로
 		String path = request.getServletContext().getRealPath("/thumbnail");
 
@@ -56,21 +54,24 @@ public class PhotoAddController extends HttpServlet {
 			multi = new MultipartRequest(request, path, size, "UTF-8", new DefaultFileRenamePolicy());
 			file = multi.getFilesystemName("thumbnail"); // 저장된 원본파일
 	
-			int tw = 350;
+			int tw = 350; // 가로 넓이
 			
+			// 원본 이미지 읽기
 			Image originalImg = ImageIO.read(new File(path + "/" + file));
 		    int imgw = originalImg.getWidth(null);
 		    int imgh = originalImg.getHeight(null);
 			
+		    // 가로 넓이에 맞춰 이미지 리사이징
 		    double ratio = (double) tw / (double) imgw;
 		    int w = (int) (imgw * ratio);
 		    int h = (int) (imgh * ratio);
 		    
+		    // getScaledInstance() == 변환된 이미지 품질 유지
 		    Image resize = originalImg.getScaledInstance(w, h, Image.SCALE_SMOOTH);
 		    
 		    String now = new SimpleDateFormat("yyMMddHmsS").format(new Date()); 
 
-		    // 새이미지저장
+		    // 새 이미지 저장
 		    thumb = "thumb" +now+ file;
 		    BufferedImage newImg = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
 		    Graphics g = newImg.getGraphics();
@@ -78,7 +79,6 @@ public class PhotoAddController extends HttpServlet {
 		    g.dispose();
 		    ImageIO.write(newImg, "png", new File(path + "/" + thumb));
 		   
-			
 		    // 리사이징 전 원본 파일은 삭제
 		    File originImg = new File(path + "/" + file);
 		    if (originImg.exists()) {

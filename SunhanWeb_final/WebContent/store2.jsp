@@ -626,11 +626,9 @@ input[type="button"]:hover{
 	<script>
 		function reserve(){
 			// 가게 영업시간 가져오기
-			//var size = $("#time_select option").size();
 			var size = $("#time_select option").length;
 			var first_index = $("#time_select option:eq(0)").val(); // 0번째 option 값 
 			var last_index = $('#time_select option:eq('+(size-1)+')').val(); // option길이 == 마지막
-			console.log(size + "<size " + last_index);
 			first_index = first_index+'${open2}';
 			last_index = last_index+'${close2}';
 

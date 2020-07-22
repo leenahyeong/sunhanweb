@@ -33,40 +33,51 @@ public class NoticeDetailController extends HttpServlet {
 		NoticeDTO p_dto = null;
 		NoticeDTO n_dto = null;
 
-		// ï¿½ï¿½È¸ï¿½ï¿½
+		// ÄíÅ°°ª °¡Á®¿È
 		Cookie[] cookies = request.getCookies();
-		// ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Å°
+		// ºñ±³¸¦ À§ÇÑ »õ·Î¿î ÄíÅ°
 		Cookie viewCookie = null;
 
-		// ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		// ÄíÅ°°¡ ÀÖÀ» °æ¿ì
 		if (cookies != null && cookies.length > 0) {
 			for (int i = 0; i < cookies.length; i++) {
-				// Cookieï¿½ï¿½ nameï¿½ï¿½ cookie + reviewNoï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï´ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ viewCookieï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½
+				// cookieÀÇ nameÀÌ ±âÁ¸ ÄíÅ° ÀÌ¸§°ú °°À¸¸é viewCookie¿¡ ³Ö¾îÁÜ
 				if (cookies[i].getName().equals("cookie" + bno)) {
 					viewCookie = cookies[i];
 				}
 			}
 		}
 
-		// ï¿½ï¿½ï¿½ï¿½ viewCookieï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½.
+		// ¸¸¾à viewCookie°¡ nullÀÏ °æ¿ì ÄíÅ°¸¦ »ý¼ºÇØ¼­ Á¶È¸¼ö Áõ°¡ ·ÎÁ÷À» Ã³¸®
 		if (viewCookie == null) {
+			System.out.println("cookie ¾øÀ½");
 
-			// ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½(ï¿½Ì¸ï¿½, ï¿½ï¿½)
+			// ÄíÅ° »ý¼º(ÀÌ¸§,°ª)
 			Cookie newCookie = new Cookie("cookie" + bno, "|" + bno + "|");
 
-			// ï¿½ï¿½Å° ï¿½ß°ï¿½
+			// ÄíÅ° À¯È¿½Ã°£ (1ÀÏ)
+			newCookie.setMaxAge(60 * 60 * 24);
+
+			// ÀÀ´äÇì´õ¿¡ ÄíÅ° Ãß°¡
 			response.addCookie(newCookie);
 
-			// ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å´
+			// Á¶È¸¼ö Áõ°¡ SQL > UPDATE notice SET hit=hit+1 WHERE bno=?
 			int result = dao.hit(bno);
 
+			if (result > 0) {
+				System.out.println("Á¶È¸¼ö Áõ°¡");
+			} else {
+				System.out.println("Á¶È¸¼ö Áõ°¡ ¿¡·¯");
+			}
 		}
-		// viewCookieï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´Ò°ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		// viewCookie°¡ nullÀÌ ¾Æ´Ò°æ¿ì ÄíÅ°°¡ ÀÖÀ¸¹Ç·Î Á¶È¸¼ö Áõ°¡ ·ÎÁ÷À» Ã³¸®ÇÏÁö ¾ÊÀ½.
 		else {
+			System.out.println("cookie ÀÖÀ½");
 
-			// ï¿½ï¿½Å° ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½.
+			// ÄíÅ° °ª ¹Þ¾Æ¿È.
 			String value = viewCookie.getValue();
 
+			System.out.println("cookie °ª : " + value);
 		}
 
 		try {

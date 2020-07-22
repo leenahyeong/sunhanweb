@@ -90,39 +90,37 @@
 		$(document).ready(function() {
 			$(".cover_img").css({"background-image":"url(resoures/images/jb/jb_free.jpg)"});
 			
-			$('#content').summernote(
-				{
-					height : 300, // set editor height
-					minHeight : null, // set minimum height of editor
-					maxHeight : null, // set maximum height of editor
-					focus : false,
-					lang : 'ko-KR',
-					codemirror : { // codemirror options
-						theme : 'monokai'
-					},
-					callbacks : {
-						onImageUpload : function(files, editor,
-							welEditable) {
-							sendFile(files[0], this);
-						}
+			$('#content').summernote({
+				height : 300, // set editor height
+				minHeight : null, // set minimum height of editor
+				maxHeight : null, // set maximum height of editor
+				focus : false,
+				lang : 'ko-KR',
+				codemirror : { // codemirror options
+					theme : 'monokai'
+				},
+				callbacks : {
+					onImageUpload : function(files, editor,welEditable) {
+						sendFile(files[0], this);
+					}
+				}
+			});
+
+			function sendFile(file, editor) {
+				data = new FormData();
+				data.append("uploadFile", file);
+				$.ajax({
+					data : data,
+					type : "POST",
+					url : "./summerupload.do",
+					cache : false,
+					contentType : false,
+					processData : false,
+					success : function(data) {
+						$(editor).summernote('editor.insertImage',data.url);
 					}
 				});
-
-				function sendFile(file, editor) {
-					data = new FormData();
-					data.append("uploadFile", file);
-					$.ajax({
-						data : data,
-						type : "POST",
-						url : "./summerupload.do",
-						cache : false,
-						contentType : false,
-						processData : false,
-						success : function(data) {
-							$(editor).summernote('editor.insertImage',data.url);
-						}
-					});
-				}
+			}
 
 					// 공지사항 글쓰기 유효성체크
 					var add_btn = document.getElementById("add");

@@ -44,7 +44,7 @@
 			<form action="noticedelete.do" method="post" name="deleteForm">
 				<article class="detail">
 					<header>
-						<h2>${dto.subject}</h4>
+						<h2>${dto.subject}</h2>
 						<input type="hidden" name="bno" value="${dto.bno}">
 					</header>
 

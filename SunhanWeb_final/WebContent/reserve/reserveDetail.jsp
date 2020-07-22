@@ -77,15 +77,16 @@
 							       		<c:choose>
 							       			<c:when test="${dto.rv_status eq 1 && timeCheck eq 1}">
 												<span>
-												<input type="hidden" value="${now_yyyy}" name="now_yyyy">
-												${now_yyyy}
+													<input type="hidden" value="${now_yyyy}" name="now_yyyy">
+													${now_yyyy}
 												</span>
 		
 												<select name="option" class="search_select outline graybox">
 													<c:set var="time" value="${open1}" />
 													<c:forEach begin="${open1}" end="${close1}">
 														<option value="${time}"
-															<c:if test="${time1 == time}">selected</c:if>>${time}</option>
+															<c:if test="${time1 == time}">selected</c:if>>${time}
+														</option>
 														<c:set var="time" value="${time+1}" />
 													</c:forEach>
 												</select>

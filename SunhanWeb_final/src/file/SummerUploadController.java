@@ -31,11 +31,12 @@ public class SummerUploadController extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		String path = this.getServletContext().getRealPath("/summerimg");
-		int size = 10 * 1024 * 1024;
+		int size = 10 * 1024 * 1024; // 업로드 사이즈 10M
 
 		String fileName = "";
 
 		try {
+			// 파일 업로드 후 이름 가져옴
 			MultipartRequest multi = new MultipartRequest(request, path, size, "UTF-8", new DefaultFileRenamePolicy());
 			Enumeration files = multi.getFileNames();
 			String file = (String) files.nextElement();
@@ -45,14 +46,12 @@ public class SummerUploadController extends HttpServlet {
 		}
 
 		String uploadPath = "/SunhanWeb/summerimg/" + fileName;
-		System.out.println(uploadPath);
 
 		JSONObject obj = new JSONObject();
 		obj.put("url", uploadPath);
 
 		response.setContentType("application/json");
 		out.print(obj.toString());
-		
 	}
 
 }

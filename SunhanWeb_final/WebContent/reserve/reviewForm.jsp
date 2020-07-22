@@ -137,8 +137,6 @@
 			document.reviewaddForm.method = "post";
 			document.reviewaddForm.action = "reviewadd.do";
 			document.reviewaddForm.submit();
-			window.opener.document.location.reload();
-			window.close();
 		}
 	}
 	

@@ -194,21 +194,15 @@ ion-icon{
                            <li>
                               <div style="margin: 0" class="left inline">
                                  <div class="starrr" id="starrr${status.count}"></div>
-                                 <input type="hidden" name="score" value="${lists.review_score}"
-                                    class="star2_input" readonly/>
-                                 <script type="text/javascript">
+                                 <input type="hidden" name="score" value="${lists.review_score}" class="star2_input" readonly/>
+                                 <script type="text/javascript">          
                                     $('.starrr').starrr({
                                        readOnly : true,
                                        rating : '${lists.review_score}',
                                        max : 5
                                     });
-                                    
-                                    console.log($('.starrr').attr('id'));
-                                    
                                  </script>
-                                 <span class="star_date"><fmt:formatDate
-                                       value="${lists.review_date}" pattern="yyyy-MM-dd" /></span>
-      
+                                 <span class="star_date"><fmt:formatDate value="${lists.review_date}" pattern="yyyy-MM-dd" /></span>
                               </div>
                               <c:if test="${lists.review_userid eq loginUserID}">
                                  <div class="float-right">
@@ -227,12 +221,8 @@ ion-icon{
                               <form method="post" name="re_form${status.count}" action="reviewadd.do" id="form${status.count}" class="fff">   
                                  <input type="button" class="rebtn" value="답글남기기">
                                  <div class="hide" id="hide${status.count}">
-                                    <input type="hidden" name="review_rno" value="${lists.review_rno}">
-                                    <input type="hidden" name="review_id" value="${lists.review_userid}">
-                                    <input type="hidden" name="review_otherid" value="${loginUserID}">
-                                    <input type="hidden" name="review_group" value="${lists.review_group}">
                                     <textarea class="comment_write outline" name="review_content" placeholder="리뷰를 남겨주세요."></textarea>
-                                    <%-- <input type="button" class="comment_btn" onclick="re_reviewCheck(re_addbtn${status.count})" id="re_addbtn${status.count}" value="작성"> --%>
+                                 
                                     <input type="button" class="comment_btn" value="작성">
                                  </div>                              
                               </form>
@@ -338,20 +328,13 @@ ion-icon{
       var id;
       // 답글작성폼 열리는
       $(".rebtn").on("click", function() { 
-            id = $(this).next().attr('id');
+         id = $(this).next().attr('id');
          document.getElementById(id).style.display = "block";
-        });
+      });
       
       // 후원자가 작성버튼 눌렀을 때
       $(".comment_btn").on("click", function() { 
-            // var 변수명에 '$' <- 붙이면 object 담는 변수가 됨;
-            //var $form2 = $(this).closest('input').attr('name');
-            
          var content = $(this).prev().attr('value');
-         /* var group = $(this).prev().prev().attr('value');
-         var storeid = $(this).prev().prev().prev().attr('value');
-         var userid = $(this).prev().prev().prev().prev().attr('value');
-         var no = $(this).prev().prev().prev().prev().prev().attr('value'); */
    
          if (content == "" || content == " ") {
             alert("리뷰를 입력해주세요.");
@@ -361,7 +344,7 @@ ion-icon{
             $(this).closest('form').attr('action');
             $(this).closest('form').submit();
          }
-        });
+      });
       
       
       $('.cover_img').css({'background-image' : 'url(resoures/images/jb/jb_review.png)'});

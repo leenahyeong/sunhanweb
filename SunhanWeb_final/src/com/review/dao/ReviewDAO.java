@@ -66,11 +66,10 @@ public class ReviewDAO {
 				Integer maxvalue;
 
 				if (rs.next()) {
-					maxvalue = rs.getInt(1) + 1;
+					maxvalue = rs.getInt(1) + 1; // 데이터가 있을땐 마지막 그룹번호 + 1
 				} else {
-					maxvalue = 1;
+					maxvalue = 1;  // 데이터가 없을땐 그룹번호를 1로
 				}
-				System.out.println(maxvalue + "엥?");
 
 				// 초기화
 				pstmt.clearParameters();

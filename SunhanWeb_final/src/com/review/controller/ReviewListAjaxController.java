@@ -47,7 +47,7 @@ public class ReviewListAjaxController extends HttpServlet {
 		// 아동 글 갯수, 사장 글 갯수, 평점
 		List<Integer> review_count = dao.reviewtotalCount(listObj);
 
-		// 리스트
+		// 리뷰 리스트
 		List<ReviewJoinDTO> list = dao.reviewList(listObj);
 		
 		request.setAttribute("list", list);
