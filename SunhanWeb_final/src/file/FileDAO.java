@@ -29,35 +29,21 @@ public class FileDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			// 3. �뱶�씪�씠踰꾨�� �궗�슜�빐�꽌 �뵒鍮� �뿰寃� �븘�씠�뵒/鍮꾨�踰덊샇/�뵒鍮� 二쇱냼
-			// mysql-connector-java 6.XX �씠�긽 �궗�슜�떆 �뵒鍮� �젒洹� 二쇱냼(�꽌踰꾩떆媛� �씤�떇 �삤瑜�)
-			// String dbURL = "jdbc:mysql://localhost:3306/itwill";
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "mysqluser";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
         
 			conn =  DriverManager.getConnection(dbURL, dbID, dbPW);
-        
-			//System.out.println("�뿰寃곗젙蹂� : " + conn);
-			//System.out.println("�뿰寃곗젙蹂�(toString) : " + conn.toString());
-			
 
 			if(conn!=null)
 			{	
-			//System.out.println("�뿰寃� �꽦怨듭뿰寃곗젙蹂� : " + conn);
-			//System.out.println("�뿰寃곗젙蹂�(toString) : " + conn.toString());
-
-			return conn;
+				return conn;
 			}
 		}
 		catch(ClassNotFoundException e) {
-			// �뱶�씪�씠踰꾨�� 遺덈윭�삱 �븣 臾몄젣媛� 諛쒖깮
-			//System.out.println("�뱶�씪�씠踰� 濡쒕뱶 �떎�뙣");
 			e.printStackTrace();
 		}
 		catch(SQLException e) {
-			// DB �젒�냽 �떎�뙣
-			//System.out.println("DB �젒�냽 �떎�뙣");
 			e.printStackTrace();
 		}
 		return null;
@@ -145,7 +131,6 @@ public class FileDAO {
 		return null;
 	}
 	
-	////////////////안드용
 	public int frofileImgCheck(String userid) {
 		int result = -1;
 		String sql = "select *,(count(fileRealName))as count from profileFILE where userid=?";

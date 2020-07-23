@@ -51,12 +51,10 @@ public class storeinfo extends HttpServlet {
 		session.setAttribute("Storefilename", storefilename);
 		
 		
-		/*---------- ���� ----------*/
+		/*---------- 占쏙옙占쏙옙 ----------*/
 		
-		// ���� �α��� ���� ���� ���̵�
 		String rv_userid = (String) session.getAttribute("loginUserID");
 		rv_userid = String.valueOf(rv_userid);
-		// �� ���Կ� �����ߴ��� ���ߴ��� üũ
 		ReserveDAO dao = ReserveDAO.getInstance();
 		ReserveStatusDTO dto = null;
 		
@@ -67,17 +65,15 @@ public class storeinfo extends HttpServlet {
 		Date currentTime = new Date();
 		Date closeTime = new Date();
 		
-		// �������ϰ� �Ҷ���
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat yyyysf = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat sf2 = new SimpleDateFormat("yyyyMMdd");
 		
-		SimpleDateFormat datefm = new SimpleDateFormat("yyyyMMddhhmm"); // ���ڿ� -> date
+		SimpleDateFormat datefm = new SimpleDateFormat("yyyyMMddhhmm"); 
 	
 		now = sf.format(currentTime);
-		String nowyyyy = sf2.format(currentTime); // ����ϸ�
-		// ����ð� ��, �� �ڸ���
-		currentTime = Calendar.getInstance().getTime(); // ���� �ð� ex) 202006150202 ����Ͻú�
+		String nowyyyy = sf2.format(currentTime);
+		currentTime = Calendar.getInstance().getTime(); 
 		open1 = SVO.getOpentime().substring(0,2);
 		open2 = SVO.getOpentime().substring(2,4);
 		String close = nowyyyy+SVO.getClosetime();
@@ -91,63 +87,63 @@ public class storeinfo extends HttpServlet {
 		}
 		
 		if(!rv_userid.equals("null")) {
-			dto = dao.reserveCheck(rv_userid, userid);
-			
 			int result = -2;
+			
+			dto = dao.reserveCheck(rv_userid, userid);
 			
 			String check = dto.getRs_available();
 			check = String.valueOf(check);
 
+			// 처음 예약하는 아동
 			if(check.equals("null")) {
-				System.out.println("ó�� �� ���Կ� �����ϴ� �Ƶ���");
 				result = 0;
-			} else if(check.equals("Y")) {
-				System.out.println("���డ��");
+			}
+			// 예약한 적 있지만 현재 예약 가능
+			else if(check.equals("Y")) {
 				result = 1;
-			} else if(check.equals("N")) {
-				System.out.println("����Ұ���");
+			}
+			// 예약한 적 있고 현재 예약 불가능
+			else if(check.equals("N")) {
 				result = -1;
 			} 
 			
 			int reserveCheck = 0;
 			
-			
-			
 			long closediff = closeTime.getTime() - currentTime.getTime();
 			
 			long m2 = closediff / 60000;
 			if(m2 <= 0) {
-				// ����Ұ�
+				// 占쏙옙占쏙옙柰占�
 				reserveCheck = -1;
 			} else {
 				reserveCheck = 1;
 			}
 				
 			if(result == -1) {
-				System.out.println("�̹� ����� ������");
+				System.out.println("占싱뱄옙 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙");
 			}
 			
 			
 			
-			String search_userid = request.getParameter("search_userid"); // ���̵� �˻�(���� or �Ƶ�)
+			String search_userid = request.getParameter("search_userid"); // 占쏙옙占싱듸옙 占싯삼옙(占쏙옙占쏙옙 or 占싣듸옙)
 			String start_date = request.getParameter("start_date");
 			String end_date = request.getParameter("end_date");
 			String r_no = request.getParameter("review_no");
 			
 
-			// �˻����ǰ� ������ Map�� ��´�.
+			// 占싯삼옙占쏙옙占실곤옙 占쏙옙占쏙옙占쏙옙 Map占쏙옙 占쏙옙쨈占�.
 			HashMap<String, Object> listObj = new HashMap<String, Object>();
 			listObj.put("search_userid", "");
 			listObj.put("start_date", "");
 			listObj.put("end_date", "");
-			listObj.put("userid", SVO.getUserid()); // ���� �α��� ����
+			listObj.put("userid", SVO.getUserid()); // 占쏙옙占쏙옙 占싸깍옙占쏙옙 占쏙옙占쏙옙
 			listObj.put("admin",1);
 			listObj.put("review_no", 0);
 
 			ReviewDAO rdao = ReviewDAO.getInstance();
 
-			// �� ȭ�鿡 15���� �Խñ��� ����������
-			// ������ ��ȣ�� �� 5��, ���ķδ� [����]���� ǥ��
+			// 占쏙옙 화占썽에 15占쏙옙占쏙옙 占쌉시깍옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙
+			// 占쏙옙占쏙옙占쏙옙 占쏙옙호占쏙옙 占쏙옙 5占쏙옙, 占쏙옙占식로댐옙 [占쏙옙占쏙옙]占쏙옙占쏙옙 표占쏙옙
 			List<Integer> listCount = rdao.reviewtotalCount(listObj);
 			
 			if(listCount.get(1) == null) {

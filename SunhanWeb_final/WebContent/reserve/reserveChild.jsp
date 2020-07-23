@@ -266,9 +266,6 @@
 $(document).ready(function(){
 	$(".cover_img").css({"background-image":"url(resoures/images/jb/jb_rv.jpg)"});
 	$('.datepicker').datepicker({});
-	var list = '${list}';
-	console.log(list.size());
-
 	// 검색조건 유효성
 	var searchBtn = document.getElementById("searchBtn");
 	searchBtn.onclick = function() {

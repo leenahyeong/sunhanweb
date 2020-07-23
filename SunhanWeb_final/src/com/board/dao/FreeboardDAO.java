@@ -19,8 +19,7 @@ public class FreeboardDAO {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 
-	private FreeboardDAO() {
-	} // 싱글톤 패턴이라 생성자 숨김
+	private FreeboardDAO() {} 
 
 	public static synchronized FreeboardDAO getInstance() {
 		if (dao == null) {
@@ -30,7 +29,6 @@ public class FreeboardDAO {
 	}
 
 	public Connection getConnection() {
-		// 커넥션 풀 찾음
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String dbURL = "*";
@@ -44,7 +42,6 @@ public class FreeboardDAO {
 		return conn;
 	}
 
-	// 글쓰기
 	public int insert(FreeboardDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -75,7 +72,6 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// 상세화면
 	public FreeboardDTO detail(int bno) {
 		pstmt = null;
 		rs = null;
@@ -119,7 +115,6 @@ public class FreeboardDAO {
 		return dto;
 	}
 
-	// 이전글
 	public FreeboardDTO prev(int bno) {
 		pstmt = null;
 		rs = null;
@@ -156,7 +151,6 @@ public class FreeboardDAO {
 		return dto;
 	}
 
-	// 다음글
 	public FreeboardDTO next(int bno) {
 		pstmt = null;
 		rs = null;
@@ -194,14 +188,13 @@ public class FreeboardDAO {
 
 	}
 
-	// 게시글 총 갯수 (검색도 따로)
 	public int totalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		int count = 0;
-		String option = (String) listObj.get("option"); // 검색 옵션
-		String keyword = (String) listObj.get("keyword"); // 검색 키워드
+		String option = (String) listObj.get("option"); 
+		String keyword = (String) listObj.get("keyword");
 
 		try {
 			conn = this.getConnection();
@@ -212,21 +205,21 @@ public class FreeboardDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // 제목
+			} else if (option.equals("0")) { 
 				sql.append("SELECT count(*) FROM freeboard WHERE subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // 내용
+			} else if (option.equals("1")) { 
 				sql.append("SELECT count(*) FROM freeboard WHERE content like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setString(1, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // 제목+내용
+			} else if (option.equals("2")) {
 				sql.append("SELECT count(*) FROM freeboard WHERE content like ? OR subject like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -234,7 +227,7 @@ public class FreeboardDAO {
 				pstmt.setString(2, "%" + keyword + "%");
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // 작성자
+			} else if (option.equals("3")) { 
 				sql.append("SELECT count(*) FROM freeboard WHERE name like ?");
 				pstmt = conn.prepareStatement(sql.toString());
 
@@ -266,15 +259,14 @@ public class FreeboardDAO {
 		return count;
 	}
 
-	// 게시글 리스트
 	public List<FreeboardDTO> list(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		List<FreeboardDTO> list = new ArrayList<FreeboardDTO>();
-		// put 추가
-		String option = (String) listObj.get("option"); // 검색 옵션
-		String keyword = (String) listObj.get("keyword"); // 검색 키워드
+
+		String option = (String) listObj.get("option");
+		String keyword = (String) listObj.get("keyword"); 
 		int start = (Integer) listObj.get("start");
 		int end = (Integer) listObj.get("end");
 
@@ -282,7 +274,7 @@ public class FreeboardDAO {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 
-			if (option == null) { // 검색x, 글목록 전체
+			if (option == null) { 
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append("").append(" FROM freeboard WHERE (@rownum:=0)=0")
@@ -291,10 +283,10 @@ public class FreeboardDAO {
 				pstmt = conn.prepareStatement(sql.toString());
 
 				pstmt.setInt(1, start);
-				pstmt.setInt(2, end); // 10개
+				pstmt.setInt(2, end); 
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("0")) { // 제목 검색
+			} else if (option.equals("0")) { 
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and subject like ?").append(" ORDER BY bno DESC")
@@ -304,10 +296,10 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10개
+				pstmt.setInt(3, end); 
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("1")) { // 내용 검색
+			} else if (option.equals("1")) { 
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and content like ?").append(" ORDER BY bno DESC")
@@ -317,10 +309,10 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10개
+				pstmt.setInt(3, end); 
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("2")) { // 제목+내용 검색
+			} else if (option.equals("2")) { 
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and subject like ? OR content like ?")
@@ -331,10 +323,10 @@ public class FreeboardDAO {
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setString(2, "%" + keyword + "%");
 				pstmt.setInt(3, start);
-				pstmt.setInt(4, end); // 10개
+				pstmt.setInt(4, end); 
 
 				sql.delete(0, sql.toString().length());
-			} else if (option.equals("3")) { // 작성자 검색
+			} else if (option.equals("3")) { 
 				sql.append("SELECT @rownum:=@rownum+1 as no,").append(
 						" freeboard.bno, freeboard.subject, freeboard.reg_date, freeboard.id, freeboard.name, freeboard.hit")
 						.append(" FROM freeboard WHERE (@rownum:=0)=0 and name like ?").append(" ORDER BY bno DESC")
@@ -344,8 +336,8 @@ public class FreeboardDAO {
 
 				pstmt.setString(1, "%" + keyword + "%");
 				pstmt.setInt(2, start);
-				pstmt.setInt(3, end); // 10개
-
+				pstmt.setInt(3, end); 
+				
 				sql.delete(0, sql.toString().length());
 			}
 
@@ -379,7 +371,6 @@ public class FreeboardDAO {
 		return list;
 	}
 
-	// 삭제
 	public int delete(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -410,7 +401,6 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// 수정
 	public int update(FreeboardDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -444,7 +434,6 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// 조회수
 	public int hit(int bno) {
 		pstmt = null;
 		int result = 0;
@@ -472,9 +461,7 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	// -----------------코멘트 부분--------------------//
-
-	// 댓글 총 갯수
+	
 	public int cmt_count(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -511,7 +498,6 @@ public class FreeboardDAO {
 		return count;
 	}
 
-	// 댓글 작성
 	public int cmt_insert(FBcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -544,8 +530,6 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	
-	// 댓글 리스트
 	public List<FBcmtDTO> cmt_list(int cmt_bno) {
 		pstmt = null;
 		rs = null;
@@ -586,7 +570,6 @@ public class FreeboardDAO {
 		return list;
 	}
 
-	// 댓글 디테일(한 댓글 보기)
 	public FBcmtDTO cmt_detail(int cmt_cno) {
 		pstmt = null;
 		rs = null;
@@ -619,7 +602,6 @@ public class FreeboardDAO {
 		
 	}
 	
-	// 댓글 수정
 	public int cmt_update(FBcmtDTO dto) {
 		pstmt = null;
 		int result = 0;
@@ -651,7 +633,6 @@ public class FreeboardDAO {
 		return result;
 	}
 	
-	// 댓글 삭제
 	public void cmt_delete(int cmt_cno) {
 		pstmt = null;
 		
@@ -676,8 +657,6 @@ public class FreeboardDAO {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	
+	}	
 
 }

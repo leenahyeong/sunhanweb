@@ -43,53 +43,33 @@ public class ReserveUpdateController extends HttpServlet {
 		
 		Date date = null;
 		String time = null;
-		if(admin == 0) { // ï¿½Æµï¿½
-			String now = request.getParameter("now_yyyy"); // ï¿½ï¿½ï¿½ï¿½ï¿½
-			String option = request.getParameter("option"); // ï¿½ï¿½
-			String minute = request.getParameter("minute"); // ï¿½ï¿½
-			now = now.replace("-", "");
+		
+		if(admin == 0) { // ¾Æµ¿
+			String now = request.getParameter("now_yyyy").replace("-", ""); 
+			String option = request.getParameter("option"); 
+			String minute = request.getParameter("minute"); 
 			rv_dto.setRv_time(now+option+minute);
 			rv_dto.setRv_personnel(Integer.parseInt(request.getParameter("personnel")));
-			queryResult = dao.reserveUpdate(rv_dto, -1);
-		} else if(admin == 1) { // ï¿½ï¿½ï¿½ï¿½
+			queryResult = dao.reserveUpdate(rv_dto, -1); // ¿¹¾à Á¤º¸ ¼öÁ¤
+		}
+		else if(admin == 1) { // ÈÄ¿øÀÚ
 			int status = Integer.parseInt(request.getParameter("status"));
 			int visit = Integer.parseInt(request.getParameter("visit"));
-			System.out.println(status + "s " + visit);
-			if(status == 2) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				rv_dto.setRv_status(2);
-				queryResult = dao.reserveUpdate(rv_dto, 2);
+			
+			if(status == 2) { // ¿¹¾à½ÂÀÎ
+				dao.reserveUpdate(rv_dto, 2);
 			}
-			if(status == 3) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				rv_dto.setRv_status(3);
+			if(status == 3) { // ¿¹¾à°ÅÀý
 				rv_dto.setRv_reason(request.getParameter("reason"));
-				System.out.println(rv_dto.getRv_reason());
-				queryResult = dao.reserveUpdate(rv_dto, 3);
-				
+				dao.reserveUpdate(rv_dto, 3);
 			}
-			if(visit != 0) {
+			if(visit != 0) { // ¹æ¹®¿©ºÎ º¯°æµÆÀ»¶§
 				rv_dto.setRv_visit(visit);
-				queryResult = dao.reserveUpdate(rv_dto, -2);
-			}
-			
-			else {
-				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
-			}
-			 
+				dao.reserveUpdate(rv_dto, -2);
+			}	 
 		}
 		
-		
-		if(queryResult != 0) {
-			//response.sendRedirect("storelistGet.do");
-			response.sendRedirect("/SunhanWeb/reservedetail.do?rno="+rno);
-		} else {
-			//request.setAttribute("storeid", storeid);
-			System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" + queryResult);
-			//response.sendRedirect("reserveresult.do?userid=" + userid + "&storeid=" + storeid);
-			response.sendRedirect("/SunhanWeb/reservedetail.do?rno="+rno);
-		}
-			
-		
+		response.sendRedirect("/SunhanWeb/reservedetail.do?rno="+rno);		
 	}
 
 }

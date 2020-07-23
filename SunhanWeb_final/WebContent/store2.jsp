@@ -398,7 +398,7 @@ input[type="button"]:hover{
 										<c:choose>
 											<c:when test="${result eq -1}">
 												<div class="center pd100">
-													<h1>이미 예약하신 가게입니다.</h1>
+													<h1 style="margin-bottom:20px;">이미 예약하신 가게입니다.</h1>
 													<input type="button" class="de_btn mtop-40" value="예약정보확인하기" onclick="location.href='reserveresult.do?userid=${loginUserID}&storeid=${Store.userid}'">
 												</div>
 											</c:when>
@@ -406,7 +406,6 @@ input[type="button"]:hover{
 											<c:when test="${result eq 0 || result eq 1}">
 												<c:choose>
 													<c:when test="${reserveCheck eq 1}">
-														
 														<form method="post" name="reservForm">
 															<table class="table mtop-20" id="rv_table">
 																<tr class="bd_lr">

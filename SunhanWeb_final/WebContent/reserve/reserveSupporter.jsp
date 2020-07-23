@@ -266,18 +266,6 @@
 	$(document).ready(function(){
 		$(".cover_img").css({"background-image":"url(resoures/images/jb/jb_rv.jpg)"});
 		$('.datepicker').datepicker({});
-			
-		function reserv_del() {
-			var str;
-			str = confirm("예약을 취소하시겠습니까?");
-			if (str) {
-				document.deletefrm.method = "post";
-				document.deletefrm.action = "reservedelete.do";
-				document.deletefrm.submit();
-			} else {
-				return false;
-			}
-		}
 		
 		var searchBtn = document.getElementById("searchBtn");
 		searchBtn.onclick = function() {

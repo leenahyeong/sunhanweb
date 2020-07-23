@@ -37,7 +37,6 @@ public class ReserveCancelController extends HttpServlet {
 		int queryResult = 0;
 		
 		if(loginid.equals(userid)) {
-			rv_dto.setRv_status(4);
 			queryResult = dao.reserveUpdate(rv_dto, 4);
 		}
 		

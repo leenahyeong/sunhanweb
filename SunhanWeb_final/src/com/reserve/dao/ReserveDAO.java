@@ -21,7 +21,7 @@ public class ReserveDAO {
 	private ResultSet rs;
 
 	private ReserveDAO() {
-	} // ½Ì±ÛÅæ ÆÐÅÏÀÌ¶ó »ý¼ºÀÚ ¼û±è
+	}
 
 	public static synchronized ReserveDAO getInstance() {
 		if (dao == null) {
@@ -31,12 +31,11 @@ public class ReserveDAO {
 	}
 
 	public Connection getConnection() {
-		// Ä¿³Ø¼Ç Ç® Ã£À½
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://3.12.173.221:3306/projectsd?&characterEncoding=UTF-8";
-			String dbID = "hyeong";
-			String dbPW = "user123";
+			String dbURL = "*";
+			String dbID = "*";
+			String dbPW = "*";
 
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -45,9 +44,6 @@ public class ReserveDAO {
 		return conn;
 	}
 
-	// -----------------¾Æµ¿¿ë ¿¹¾à-------------------//
-
-	// ¿¹¾à°¡´ÉÇÑÁö Ã¼Å© (rs_available¿¡ µû¶ó ÆÇ´Ü)
 	public ReserveStatusDTO reserveCheck(String userid, String storeid){
 		pstmt = null;
 		rs = null;
@@ -69,22 +65,12 @@ public class ReserveDAO {
 			rs = pstmt.executeQuery();
 		
 			if(rs.next()) {
-				if(rs.getString("rs_available").equals("Y")) {
-					// ¿¹¾à°¡´É»óÅÂ
-					dto = new ReserveStatusDTO();
-					dto.setRs_userid(rs.getString("rv.rv_userid"));
-					dto.setRs_storeid(rs.getString("rv.rv_sno"));
-					dto.setRs_available(rs.getString("rs.rs_available"));
+				dto = new ReserveStatusDTO();
+				dto.setRs_userid(rs.getString("rv.rv_userid"));
+				dto.setRs_storeid(rs.getString("rv.rv_sno"));
+				dto.setRs_available(rs.getString("rs.rs_available"));
 				
-				} else if(rs.getString("rs_available").equals("N")){
-					// ¿¹¾àºÒ°¡´É
-					dto = new ReserveStatusDTO();
-					dto.setRs_userid(rs.getString("rv.rv_userid"));
-					dto.setRs_storeid(rs.getString("rv.rv_sno"));
-					dto.setRs_available(rs.getString("rs.rs_available"));
-				}
 			} else {
-				// °á°ú°¡ ¾øÀ»¶§, ÇÑ¹øµµ ¿¹¾àÇÑÀû ¾øÀ»¶§
 				dto = new ReserveStatusDTO();
 			}
 			
@@ -102,8 +88,6 @@ public class ReserveDAO {
 		return dto;
 	}
 	
-	
-	// ¿¹¾à »ó¼¼ÆäÀÌÁö (¹Ù·Î¿¹¾à½Ã) Æ¯Á¤°¡°Ô¿¡ ¿¹¾àÇÑ °á°ú
 	public ReserveDTO reserveResult(String userid, String storeid) {
 		pstmt = null;
 		rs = null;
@@ -150,7 +134,6 @@ public class ReserveDAO {
 		return dto;
 	}
 	
-	// ¿¹¾à»óÅÂ, ¹æ¹®¿©ºÎ º¯°æ
 	public int reserveUpdate(ReserveChildDTO rv_dto, int result) {
 		pstmt = null;
 		
@@ -158,21 +141,17 @@ public class ReserveDAO {
 		
 		try {
 			conn = this.getConnection();
-			
 			StringBuffer sql = new StringBuffer();
-			
-			// ¿¹¾àÃë¼Ò
+
 			if(result == 4) { 
 				sql.append("UPDATE reserve SET rv_status=? WHERE rv_rno=?");
-				
 				pstmt = conn.prepareStatement(sql.toString());
 				
-				pstmt.setInt(1, rv_dto.getRv_status());
-				pstmt.setInt(2, rv_dto.getRv_rno());
+				pstmt.setInt(1, 3);
+				pstmt.setInt(1, rv_dto.getRv_rno());
 				
 				c = pstmt.executeUpdate();
 				
-				// ÃÊ±âÈ­
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 				
@@ -189,7 +168,7 @@ public class ReserveDAO {
 				sql.delete(0, sql.toString().length());
 			}
 			
-			else if(result == -1) { // »óÅÂº¯°æ x, ¾Æµ¿ÀÌ ¿¹¾àÁ¤º¸¹Ù²Ù´Â°Å
+			else if(result == -1) {
 				sql.append("UPDATE reserve SET rv_time=?, rv_personnel=? WHERE rv_rno=?");
 				
 				pstmt = conn.prepareStatement(sql.toString());
@@ -200,31 +179,29 @@ public class ReserveDAO {
 				
 				c = pstmt.executeUpdate();
 				
-				// ÃÊ±âÈ­
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 			}
-			else if(result == 2){ // 2=½ÂÀÎ
+			else if(result == 2){
 				sql.append("UPDATE reserve SET rv_status=? WHERE rv_rno=?");
 				
 				pstmt = conn.prepareStatement(sql.toString());
 				
-				pstmt.setInt(1, rv_dto.getRv_status());
+				pstmt.setInt(1, 1);
 				pstmt.setInt(2, rv_dto.getRv_rno());
 				
 				c = pstmt.executeUpdate();
 				
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
-				
 			}
 			
-			else if(result == 3) { // 3=°ÅÀý
+			else if(result == 3) {
 				sql.append("UPDATE reserve SET rv_status=?, rv_reason=? WHERE rv_rno=?");
 				
 				pstmt = conn.prepareStatement(sql.toString());
 				
-				pstmt.setInt(1, rv_dto.getRv_status());
+				pstmt.setInt(1, 2);
 				pstmt.setString(2, rv_dto.getRv_reason());
 				pstmt.setInt(3, rv_dto.getRv_rno());
 				
@@ -247,8 +224,7 @@ public class ReserveDAO {
 				sql.delete(0, sql.toString().length());
 			}
 			
-			
-			else if(result == -2) { // ¹æ¹®º¯°æ
+			else if(result == -2) {
 				sql.append("UPDATE reserve SET rv_visit=? WHERE rv_rno=?");
 				
 				pstmt = conn.prepareStatement(sql.toString());
@@ -258,7 +234,6 @@ public class ReserveDAO {
 				
 				c = pstmt.executeUpdate();
 				
-				// ÃÊ±âÈ­
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 				
@@ -288,8 +263,6 @@ public class ReserveDAO {
 		return c;
 	}
 	
-	
-	// ¿¹¾à insert
 	public int reserveInsert(ReserveDTO rv_dto, ReserveStatusDTO rs_dto, int result) {
 		pstmt = null;
 		
@@ -301,8 +274,7 @@ public class ReserveDAO {
 			StringBuffer sql = new StringBuffer();
 			
 			if(result == 0) {
-				// ÇÑ¹øµµ ¿¹¾àÇÑ Àû ¾ø´Â ½Å±Ô
-				
+
 				sql.append("INSERT INTO reserve(rv_sno, rv_time, rv_userid, rv_personnel, rv_status) VALUES(?,?,?,?,?)");
 				
 				pstmt = conn.prepareStatement(sql.toString());
@@ -313,11 +285,9 @@ public class ReserveDAO {
 				pstmt.setInt(5, rv_dto.getRv_status());
 				
 				c = pstmt.executeUpdate();
-				// ÃÊ±âÈ­
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 				
-				// ½Å±Ô¾Æµ¿Àº status Å×ÀÌºí¿¡µµ µ¥ÀÌÅÍ°¡ ¾øÀ¸´Ï±î insert
 				sql.append("INSERT INTO reserve_status(rs_userid, rs_storeid, rs_available) VALUES(?,?,'N')");
 				
 				pstmt = conn.prepareStatement(sql.toString());
@@ -330,7 +300,6 @@ public class ReserveDAO {
 				sql.delete(0, sql.toString().length());
 				
 			} else if(result == 1) {
-				// ±âÁ¸¿¡ ¿¹¾àÇÑ Àû ÀÖÁö¸¸ ÇöÀç ¿¹¾à °¡´ÉÇÑ »óÅÂ
 				sql.append("INSERT INTO reserve(rv_sno, rv_time, rv_userid, rv_personnel, rv_status) VALUES(?,?,?,?,?)");
 				
 				pstmt = conn.prepareStatement(sql.toString());
@@ -341,11 +310,9 @@ public class ReserveDAO {
 				pstmt.setInt(5, rv_dto.getRv_status());
 				
 				c = pstmt.executeUpdate();
-				// ÃÊ±âÈ­
 				pstmt.clearParameters(); 
 				sql.delete(0, sql.toString().length());
 				
-				// ±âÁ¸¿¡ ÀÖ´Â µ¥ÀÌÅÍ´Â ÀÖÀ¸´Ï±î status Å×ÀÌºí update 
 				sql.append("UPDATE reserve_status SET rs_available='N' WHERE rs_userid=? AND rs_storeid=?");
 				pstmt = conn.prepareStatement(sql.toString());
 				
@@ -370,22 +337,19 @@ public class ReserveDAO {
 		return c;
 	}
 	
-	// ¾Æµ¿ÀÌ ¿¹¾àÇÑ ÀüÃ¼ ¸®½ºÆ® (¾Æµ¿Àü¿ë ¿¹¾à¸®½ºÆ®)
 	public List<ReserveChildDTO> reserveChildList(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 				
 		List<ReserveChildDTO> list = new ArrayList<ReserveChildDTO>();
-			
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
+
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
 		String status_option = (String) listObj.get("status_option"); 
 		String visit_option = (String) listObj.get("visit_option");
-		// ÆäÀÌÂ¡
+
 		int start = (Integer) listObj.get("start");
-		// ¾Æµ¿ ¾ÆÀÌµð
 		String rv_userid = (String) listObj.get("rv_userid");
 			
 		try {
@@ -393,12 +357,12 @@ public class ReserveDAO {
 					
 			StringBuffer sql = new StringBuffer();
 					
-			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ÀüÃ¼º¸±â
+			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 				if(start_date == null && end_date == null && search_userid == null) {
 					sql.append("SELECT rv.*, s.shopname, review.review_no FROM reserve as rv")
 					.append(" LEFT OUTER JOIN store as s ON rv.rv_sno = s.userid")
 					.append(" LEFT OUTER JOIN review ON rv.rv_rno = review.review_rno")
-					.append(" WHERE rv.rv_userid = ? AND review.review_depth=0")
+					.append(" WHERE rv.rv_userid = ? AND (review.review_depth=0 || review.review_depth IS NULL)")
 					.append(" ORDER BY rv_rno LIMIT ?, 15");
 					
 					pstmt = conn.prepareStatement(sql.toString());
@@ -446,27 +410,24 @@ public class ReserveDAO {
 		return list;
 	}
 	
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
 	public int ChildtotalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 		
 		int count = 0;
 		
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
 		String status_option = (String) listObj.get("status_option"); 
 		String visit_option = (String) listObj.get("visit_option");
-		// ¾Æµ¿ ¾ÆÀÌµð
 		String rv_userid = (String) listObj.get("rv_userid");
 		
 		try {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 			
-			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ÀüÃ¼º¸±â
+			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 				if(start_date == null && end_date == null && search_userid == null) {
 					sql.append("SELECT count(*) FROM reserve WHERE rv_userid=? ORDER BY rv_rno");
 					
@@ -500,24 +461,24 @@ public class ReserveDAO {
 	}
 
 	
-	// -----------------ÈÄ¿øÀÚ¿ë ¿¹¾à-------------------//
+	// -----------------ï¿½Ä¿ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½-------------------//
 	
-	// ÈÄ¿øÀÚ °¡°Ô·Î ¿¹¾àµÈ ÀüÃ¼ ¸®½ºÆ® (ÈÄ¿øÀÚÀü¿ë ¿¹¾à¸®½ºÆ®)
+	// ï¿½Ä¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½Æ® (ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½à¸®ï¿½ï¿½Æ®)
 	public List<ReserveDTO> reserveSupproterList(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 			
 		List<ReserveDTO> list = new ArrayList<ReserveDTO>();
 		
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
+		// ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Íµï¿½
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
 		String status_option = (String) listObj.get("status_option"); 
 		String visit_option = (String) listObj.get("visit_option");
-		// ÆäÀÌÂ¡
+		// ï¿½ï¿½ï¿½ï¿½Â¡
 		int start = (Integer) listObj.get("start");
-		// °¡°Ô ¾ÆÀÌµð
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
 		String rv_sno = (String) listObj.get("rv_sno");
 		
 		try {
@@ -525,7 +486,7 @@ public class ReserveDAO {
 				
 			StringBuffer sql = new StringBuffer();
 				
-			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ÀüÃ¼º¸±â
+			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 				if(start_date == null && end_date == null && search_userid == null) {
 					sql.append("SELECT * FROM reserve WHERE rv_sno=? ORDER BY rv_rno LIMIT ?, 15");
 						
@@ -571,27 +532,27 @@ public class ReserveDAO {
 		return list;
 	}
 	
-	// °Ô½Ã±Û ÃÑ °¹¼ö (°Ë»öµµ µû·Î)
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	public int SupportertotalCount(HashMap<String, Object> listObj) {
 		pstmt = null;
 		rs = null;
 
 		int count = 0;
 		
-		// °Ë»öÁ¶°Ç¿¡ ÇÊ¿äÇÑ °Íµé
+		// ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Íµï¿½
 		String search_userid = (String) listObj.get("search_userid");
 		String start_date = (String) listObj.get("start_date");
 		String end_date = (String) listObj.get("end_date");
 		String status_option = (String) listObj.get("status_option"); 
 		String visit_option = (String) listObj.get("visit_option");
-		// °¡°Ô ¾ÆÀÌµð
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
 		String rv_sno = (String) listObj.get("rv_sno");
 		
 		try {
 			conn = this.getConnection();
 			StringBuffer sql = new StringBuffer();
 			
-			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ÀüÃ¼º¸±â
+			if(status_option == "0" || status_option == null && visit_option == "0" || visit_option == null) { // ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 				if(start_date == null && end_date == null && search_userid == null) {
 					sql.append("SELECT count(*) FROM reserve WHERE rv_sno=? ORDER BY rv_rno");
 						
@@ -624,7 +585,7 @@ public class ReserveDAO {
 		return count;
 	}
 	
-	// ¿¹¾à ¸®½ºÆ®¿¡¼­ »ó¼¼È­¸é ¿äÃ»
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ã»
 	public ReserveChildDTO reserveDetail(int rno) {
 		pstmt = null;
 		rs = null;
